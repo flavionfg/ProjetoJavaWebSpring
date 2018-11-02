@@ -28,6 +28,7 @@ public class ProfessorDAO {
 	
 	public void cadastrarPessoaNoBanco(Professor professor) {
 		
+		System.out.println("teste git");
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
