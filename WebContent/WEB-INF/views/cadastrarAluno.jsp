@@ -5,6 +5,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" href="css/style.css">
+
+
 <title>Cadastrar Aluno</title>
 </head>
 <body>
@@ -12,7 +14,7 @@
 <form id="form" name="form">
     <div>
         <label for="name">Nome:</label>
-        <input type="text" id="name" name="nome" value=""/>
+        <input type="text" id="nome" name="nome" value=""/>
     </div>
     
      <div>
@@ -54,6 +56,7 @@
         <button type="button" id="botao" value="enviar">Cadastar</button>
     </div>
 </form>
+
 
 
  	<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
