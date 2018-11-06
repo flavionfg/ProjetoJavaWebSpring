@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="css/style.css">
 
 
-<title>Cadastrar Aluno</title>
+<title>Cadastrar Professor</title>
 </head>
 <body>
 
@@ -52,6 +52,12 @@
         <label for="curso">Curso:</label>
         <input type="text" id="curso" name="curso"></input>
     </div>
+    
+      <div>
+        <label for="disciplina">Disciplina:</label>
+        <input type="text" id="disciplina" name="disciplina"></input>
+    </div>
+   
    
     <div class="button">
         <button type="button" id="botao" value="enviar">Cadastar</button>
