@@ -57,11 +57,12 @@ function validarCadastro(elemento) {
 
 		}
 		
-		if($(elemento).prop('name') == "sexo"){
+		if ($(elemento).prop('name') == "sexo") {
 			if(!validaSexo($(elemento).val())){
-				alert("Digite um Sexo Valido");
-				retorno = false;
-			};
+				
+			}
+		}
+
 
 		}
 		
@@ -166,4 +167,8 @@ function validaNome(nome){
 }
 
 
+
+function validaSexo(sexo){
+return !!sexo;
+}
 
