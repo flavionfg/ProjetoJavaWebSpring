@@ -15,12 +15,12 @@
   
 <div class="container">
   
-<form>
+<form id="form" action="adicionaAluno" method="post">
   <div class="row">
     <div class="form-group col col-sm-6 col-md-4">
       <label for="nome">Nome</label>
       <input type="text" class="form-control" id="nome" placeholder="Nome completo" name="nome">
-    </div>
+    </div> 
     <div class="form-group col col-sm-6 col-md-4">
       <label for="cpf">CPF</label>
       <input type="text" class="form-control" id="cpf" placeholder="000.000.000-00" name="cpf">
@@ -58,7 +58,7 @@
       </select>
     </div>
 </div>
-  <button type="submit" class="btn btn-outline-primary" id="botao">Cadastrar</button>
+  <button type="submit" class="btn btn-outline-primary" id="botao" value="adicionaAluno" >Cadastrar</button>
   <button type="submit" class="btn btn-outline-primary" id="botaoEditar">Editar</button>
   <button type="submit" class="btn btn-outline-primary" id="botaoDeletar">Deletar</button>
 </form>

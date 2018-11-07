@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,18 +37,18 @@ public class AlunoDAO {
 		try {
 			conn = db.obterConexao();
 			conn.setAutoCommit(false);
-
+			
 			StringBuffer sql = new StringBuffer();
 			
 			sql.append("INSERT INTO pessoa(nome,cpf,data_nascimento,endereco,sexo,telefone,email)");
 			sql.append("VALUES(?,?,?,?,?,?,?)");
 			
 			stmt = conn.prepareStatement(sql.toString());
-			
+			System.out.println("entrou no metodo de cadastrar");
 			stmt.setString(1, aluno.getNome());
 			stmt.setString(2, aluno.getCpf());
-			java.sql.Date d = new java.sql.Date(aluno.getDataNascimento().getTime());
-			stmt.setDate(3, d); // NAO ESTA GRAVANDO O CAMPO DE DATA NASCIMENTO NO BANCO!!!!
+			System.out.println("o que tem aqui é :  " + aluno.getDataNascimentoStr());
+			stmt.setString(3, aluno.getDataNascimentoStr());			
 			stmt.setString(4, aluno.getEndereco());
 			stmt.setString(5, aluno.getSexo());
 			stmt.setString(6, aluno.getTelefone());
@@ -69,6 +70,7 @@ public class AlunoDAO {
 		} finally {
 			db.finalizaObjetos(rs, stmt, conn);
 		}
+		System.out.println("passou do metodo");
 		//		System.out.println("Aluno " + pessoa.getNome() + "CPF  " + pessoa.getCpf() + "Data de Nascimento :" + pessoa.getDataNascimento() + "Endereço :" + pessoa.getEndereco() + "Sexo" + pessoa.getSexo() + "Telefone : " + pessoa.getTelefone() + "Email : "+ pessoa.getEmail() + "cadastrado com sucesso!");
 	}
 	
@@ -76,7 +78,7 @@ public class AlunoDAO {
 	
 	
 	public void cadastrarAluno(Aluno aluno) {
-		
+		System.out.println("cadastrar aluno");
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;

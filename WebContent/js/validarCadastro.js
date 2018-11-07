@@ -25,8 +25,10 @@ $(document).ready(function() {
 		});
 
 		if (cont == 0) {
-
+			var f = document.formulario;
+			f.action = "adicionaAluno";
 			$("#form").submit();
+			alert("Entrou");
 			
 		}
 	});
@@ -34,6 +36,7 @@ $(document).ready(function() {
 
 function validarCadastro(elemento) {
 	 var retorno = true;
+	
 	 
 		if ($(elemento).prop('name') == "nome") {
 			if(!validaNome($(elemento).val())){
@@ -63,8 +66,6 @@ function validarCadastro(elemento) {
 			}
 		}
 
-
-		}
 		
 		if($(elemento).prop('name') == "telefone"){
 			if(!validaTelefone($(elemento).val())){
@@ -76,7 +77,7 @@ function validarCadastro(elemento) {
 		
 		return retorno;
 }
-
+		
 
 function testaCPF(strCPF) {
 	var Soma;
@@ -169,6 +170,10 @@ function validaNome(nome){
 
 
 function validaSexo(sexo){
-return !!sexo;
+	return !!sexo;
 }
 
+function Cadastrar(){
+	alert("Entrou na funcao de cadastrar");
+	
+}
