@@ -8,5 +8,7 @@
 </head>
 <body>
 	Novo Aluno adicionada com sucesso!
+	
+	<button type="submit" class="btn btn-outline-primary" id="voltar">Voltar</button>
 </body>
 </html>

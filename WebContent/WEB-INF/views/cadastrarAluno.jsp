@@ -2,6 +2,11 @@
     pageEncoding="ISO-8859-1"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+
 <html>
 <head>
   <meta charset="utf-8">
@@ -46,26 +51,25 @@
 
   <div class="form-row">
     <div class="form-group col-md-4">
-      <label for="dataDeNascimento">Data de Nascimento</label>
-      <input type="text" class="form-control" id="dataDeNascimento" placeholder="dia/mes/ano"name="dataDeNascimento">
+      <label for="dataNascimentoStr">Data de Nascimento</label>
+      <input type="text" class="form-control" id="dataNascimentoStr" placeholder="dia/mes/ano"name="dataNascimentoStr">
     </div>
     <div class="form-group col-md-4">
       <label for="sexo">Sexo</label>
       <select id="sexo" class="form-control" name="sexo">
         <option selected></option>
-        <option>Masculino</option>
-     <option>Feminino</option>
+        <option>M</option>
+     <option>F</option>
       </select>
     </div>
 </div>
   <button type="submit" class="btn btn-outline-primary" id="botao" value="adicionaAluno" >Cadastrar</button>
-  <button type="submit" class="btn btn-outline-primary" id="botaoEditar">Editar</button>
+  <button type="submit" class="btn btn-outline-primary" id="botaoEditar" value="listaAlunos">Editar</button>
   <button type="submit" class="btn btn-outline-primary" id="botaoDeletar">Deletar</button>
 </form>
-  
        <div class="row mt-4">
          <div class="col-sm-12">
-             <h3 class="page-header">Dados do Aluno</h3>
+           <h3 class="page-header">Dados do Aluno</h3>
             <table class="table table-striped table-bordered table-hover">
               <thead>
               <tr>
@@ -80,40 +84,19 @@
                 <th>Sexo</th>
               </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <th>1</th>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                </tr>
-                <tr>
-                  <th>2</th>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                </tr>
-                <tr>
-                  <th>3</th>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                </tr>
+	              <tbody>
+					<c:forEach items="${alunos}" var="aluno">
+						<tr>
+							<td>${aluno.nome}</td>
+							<td>${aluno.cpf}</td>
+							<td>${aluno.endereco}</td>
+							<td>${aluno.email}</td>
+							<td>${aluno.telefone}</td>
+							<td>${aluno.curso}</td>
+							<td>${aluno.dataNascimento}</td>
+							<td>${aluno.sexo}</td>
+						</tr>
+					</c:forEach>
               </tbody>
             </table>
         </div>

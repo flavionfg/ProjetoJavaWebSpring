@@ -1,12 +1,8 @@
 package model;
 
-
-
 public class Aluno extends Pessoa{
 	
-
 	String curso;
-	
 	
 	public String getCurso() {
 		return curso;
@@ -15,6 +11,4 @@ public class Aluno extends Pessoa{
 		this.curso = curso;
 	}
 	
-	
-
 }

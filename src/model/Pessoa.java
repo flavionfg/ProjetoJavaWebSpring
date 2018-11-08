@@ -32,18 +32,19 @@ public class Pessoa {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-
+//////////////////////
 	public Date getDataNascimento() {
 
 		Util util = new Util();
 		if (getDataNascimentoStr() != null) {
 			dataNascimento = util.transformaData(getDataNascimentoStr());
+			System.out.println("o que tem no dataNascimento : " + dataNascimento);
 			return dataNascimento;
 		} else {
 			return dataNascimento;
 		}
 	}
-
+	//////////////////////
 	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}

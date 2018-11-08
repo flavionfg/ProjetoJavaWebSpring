@@ -1,4 +1,7 @@
 $(document).ready(function() {
+	
+	console.log("Recarregando a página");
+	
 	$("input").blur(function() {
 		if ($(this).val() == "") {
 			$(this).css({
@@ -28,7 +31,7 @@ $(document).ready(function() {
 			var f = document.formulario;
 			f.action = "adicionaAluno";
 			$("#form").submit();
-			alert("Entrou");
+			alert("Aluno Cadastrado com Sucesso");
 			
 		}
 	});
@@ -51,7 +54,7 @@ function validarCadastro(elemento) {
 			}
 		}
 		
-		if($(elemento).prop('name') == "dataDeNascimento"){
+		if($(elemento).prop('name') == "dataNascimentoStr"){
 			console.log($(elemento).val());
 			if(!validarData($(elemento).val())){
 				alert("Digite um data Valida.");
@@ -77,7 +80,44 @@ function validarCadastro(elemento) {
 		
 		return retorno;
 }
-		
+
+function obterDadosViaJson() {
+	var html = "";
+	var data = {
+		   idTeste: 0,
+		   parametroTeste: 'parametroAserEnviado'
+			};   
+				   
+	$.ajax({
+		url:"obterDadosViaJson",
+		type: "GET",
+		async:false,
+		data: data,
+		dataType:"json",
+	    cache: true,
+		contentType: 'application/x-www-form-urlencoded; charset=iso-8859-1;', 
+		success: function (data) {
+			console.log(data.length);
+			if (data.length > 0) {
+				html = "<table border='1' cellpadding='0' cellspacing='0' width='100%'>";
+				html = html + "<thead><tr><th><span class=''>Id</span></th>";
+				html = html + "<th><span class=''>Descricao</span></th>";
+				html = html + "<th><span class=''>Finalizado</span></th>";
+				html = html + "<th><span class=''>Data finalização</span></th>";
+				html = html + "</tr></thead>";
+			} else {
+			   	html = "<div><span class=''>Dados não encontrados.</span></div>";
+			}
+	         $.each(data, function(index, tarefa) {
+			   	html = html + "<tbody><tr><td><span style='text-align: center;'>" + tarefa.id + "</span></td>";
+				html = html + "<td><span class=''>" + tarefa.descricao + "</span></td>";
+				html = html + "<td><span style='text-align: center;'>" + tarefa.finalizado + "</span></td>";
+				html = html + "<td><span style='text-align: center;'>" + tarefa.dataFinalizacao + "</span></td></tr></tbody>";
+	         });    
+	       $(".listaTarefasDinamica").empty().html(html);
+	    }				
+	});
+}	
 
 function testaCPF(strCPF) {
 	var Soma;
@@ -136,7 +176,7 @@ function validarData(data) {
 
 function validaSexo(sexo){
 	console.log(sexo);
-	if(sexo == "masculino" || sexo == "feminimo")
+//	if(sexo == "masculino" || sexo == "feminimo")
 		return true;
 	
 }

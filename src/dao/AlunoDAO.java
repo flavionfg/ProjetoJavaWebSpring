@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -47,8 +48,8 @@ public class AlunoDAO {
 			System.out.println("entrou no metodo de cadastrar");
 			stmt.setString(1, aluno.getNome());
 			stmt.setString(2, aluno.getCpf());
-			System.out.println("o que tem aqui é :  " + aluno.getDataNascimentoStr());
-			stmt.setString(3, aluno.getDataNascimentoStr());			
+			java.sql.Date d = new java.sql.Date(aluno.getDataNascimento().getTime());
+			stmt.setDate(3, d);
 			stmt.setString(4, aluno.getEndereco());
 			stmt.setString(5, aluno.getSexo());
 			stmt.setString(6, aluno.getTelefone());
@@ -71,7 +72,6 @@ public class AlunoDAO {
 			db.finalizaObjetos(rs, stmt, conn);
 		}
 		System.out.println("passou do metodo");
-		//		System.out.println("Aluno " + pessoa.getNome() + "CPF  " + pessoa.getCpf() + "Data de Nascimento :" + pessoa.getDataNascimento() + "Endereço :" + pessoa.getEndereco() + "Sexo" + pessoa.getSexo() + "Telefone : " + pessoa.getTelefone() + "Email : "+ pessoa.getEmail() + "cadastrado com sucesso!");
 	}
 	
 	
@@ -100,9 +100,8 @@ public class AlunoDAO {
 			stmt.execute();
 			conn.commit();
 			
-			JOptionPane.showMessageDialog(null, "Sucesso ao cadastrar aluno");
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Erro ao cadastrar.");	
+			System.out.println("Erro ao Cadastrar");
 		} finally {
 			db.finalizaObjetos(rs, stmt, conn);
 		}
@@ -120,12 +119,8 @@ public class AlunoDAO {
 			conn = db.obterConexao();
 
 			String sql = "select fk_cpf, curso " + "from aluno ";
-
-			
 			stmt = conn.createStatement();
-
 			ResultSet rs = stmt.executeQuery(sql);
-
 			while (rs.next()) {
 				Aluno aluno = new Aluno();
 				String cpf = rs.getString("fk_cpf");
@@ -133,7 +128,6 @@ public class AlunoDAO {
 				String curso = rs.getString("curso");
 				aluno.setCurso(curso);
 				listaAluno.add(aluno);
-				// listaAluno - CONTEM O RETORNO DO SELECT NO BANCO!
 			}
 
 		} catch (SQLException e) {

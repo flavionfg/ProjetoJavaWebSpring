@@ -61,8 +61,8 @@
       <label for="sexo">Sexo</label>
       <select id="sexo" class="form-control" name="sexo">
         <option selected></option>
-        <option>Masculino</option>
-     <option>Feminino</option>
+        <option>M</option>
+     <option>F</option>
       </select>
     </div>
         <div class="form-group col-md-4">
