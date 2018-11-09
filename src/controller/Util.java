@@ -7,7 +7,7 @@ import java.util.Date;
 public class Util {
 	
 	public Date transformaData(String date) {
-		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy");
 		dt.setLenient(false);
 		Date data = new Date();
 		if (!date.equals("")) {

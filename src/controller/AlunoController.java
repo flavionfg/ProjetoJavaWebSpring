@@ -16,23 +16,37 @@ public class AlunoController {
 	
 	@RequestMapping("novoAluno")
 		public String form(){
-			return "cadastrarAluno"; 
+			return "forward:listaAlunos";
 		}
 	
 	@RequestMapping("adicionaAluno")
 	public String cadastrarPessoaNoBanco(@Valid Aluno aluno, BindingResult result, Model model) {
 		AlunoDAO alunodao = new AlunoDAO();
-		alunodao.cadastrarPessoaNoBanco(aluno);
-		return "adicionada";
+		if(aluno.getNumero_matricula() > 0){
+			
+			alunodao.editarAluno(aluno);
+		}else{
+			alunodao.cadastrarPessoaNoBanco(aluno);
+		}
+		
+		return "forward:listaAlunos";
 	}
 	
 
 	@RequestMapping("listaAlunos")
 	public String listarAluno(Model model) {
-		AlunoDAO alunodao = new AlunoDAO();
-		model.addAttribute("alunos", alunodao.listarAluno());
+		AlunoDAO aluno = new AlunoDAO();
+		model.addAttribute("alunos", aluno.listarAluno());
 		return "cadastrarAluno"; // retorna para ca mesmo?
 	}
+	
+	@RequestMapping("editaAlunos")
+	public String editarAluno(@Valid Aluno aluno, BindingResult result, Model model) { 
+		AlunoDAO alunodao = new AlunoDAO();
+		alunodao.editarAluno(aluno);
+		return "forward:listaAlunos";
+	}
+	
 	
 	
 }

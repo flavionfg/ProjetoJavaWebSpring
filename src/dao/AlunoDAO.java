@@ -118,15 +118,22 @@ public class AlunoDAO {
 		try {
 			conn = db.obterConexao();
 
-			String sql = "select fk_cpf, curso " + "from aluno ";
+			String sql = "select a.numero_matricula, a.fk_cpf, a.curso, p.nome, p.endereco, p.email, p.telefone,p.data_nascimento,p.sexo from aluno a inner join pessoa p on p.cpf = a.fk_cpf ";
+			
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
 				Aluno aluno = new Aluno();
-				String cpf = rs.getString("fk_cpf");
-				aluno.setCpf(cpf);
-				String curso = rs.getString("curso");
-				aluno.setCurso(curso);
+				aluno.setNumero_matricula(rs.getInt("numero_matricula"));
+				aluno.setNome(rs.getString("nome"));
+				aluno.setCpf(rs.getString("fk_cpf"));
+				aluno.setCurso(rs.getString("curso"));
+				aluno.setEmail(rs.getString("email"));
+				aluno.setSexo(rs.getString("sexo"));
+				aluno.setEndereco(rs.getString("endereco"));
+				aluno.setTelefone(rs.getString("telefone"));
+				aluno.setDataNascimento(rs.getDate("data_nascimento"));
+				
 				listaAluno.add(aluno);
 			}
 
@@ -172,7 +179,7 @@ public class AlunoDAO {
 		return listaProfessor;
 	}
 	
-	public void alterarProfessor(Professor professor) {
+	public void editarAluno(Aluno aluno) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -183,13 +190,21 @@ public class AlunoDAO {
 
 			StringBuffer sql = new StringBuffer();
 			
-			sql.append("UPDATE nome_tabela SET nome_campo = ? ");
-			sql.append("WHERE nome_campo_id = ?;");
-
-			stmt = conn.prepareStatement(sql.toString());
 			
-			//stmt.setInt(1, professor.getId());
-
+			sql.append("UPDATE aluno SET nome = ?,curso = ?,endereco = ?,email = ?,telefone = ?,data_nascimento = ?,sexo = ? ");
+			sql.append("WHERE numero_matricula = ?;");
+			
+			stmt = conn.prepareStatement(sql.toString());
+	
+			stmt.setString(1, aluno.getNome());
+			stmt.setString(2, aluno.getCurso());
+			stmt.setString(3, aluno.getEndereco());
+			stmt.setString(4, aluno.getEmail());
+			java.sql.Date d = new java.sql.Date(aluno.getDataNascimento().getTime());
+			stmt.setDate(5, d);
+			stmt.setString(6, aluno.getSexo());
+			stmt.setInt(7, aluno.getNumero_matricula());
+	
 			stmt.execute();
 			conn.commit();
 		} catch (SQLException e) {
@@ -197,10 +212,10 @@ public class AlunoDAO {
 				try {
 					conn.rollback();
 				} catch (SQLException e1) {
-					System.out.println("Erro no método alterarProfessor - rollback");
+					System.out.println("Erro no método AlterarAluno - rollback");
 				}
 			}
-			System.out.println("Erro no método alterarProfessor");
+			System.out.println("Erro no método alterarAluno");
 			e.printStackTrace();
 		} finally {
 			db.finalizaObjetos(rs, stmt, conn);

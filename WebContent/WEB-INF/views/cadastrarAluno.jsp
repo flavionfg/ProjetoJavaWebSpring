@@ -21,6 +21,8 @@
 <div class="container">
   
 <form id="form" action="adicionaAluno" method="post">
+<input type="hidden" name="numero_matricula" value="">
+	
   <div class="row">
     <div class="form-group col col-sm-6 col-md-4">
       <label for="nome">Nome</label>
@@ -48,7 +50,6 @@
     </div>
   </div>
 
-
   <div class="form-row">
     <div class="form-group col-md-4">
       <label for="dataNascimentoStr">Data de Nascimento</label>
@@ -57,14 +58,14 @@
     <div class="form-group col-md-4">
       <label for="sexo">Sexo</label>
       <select id="sexo" class="form-control" name="sexo">
-        <option selected></option>
+        <option>Selecione</option>
         <option>M</option>
-     <option>F</option>
+     	<option>F</option>
       </select>
     </div>
 </div>
   <button type="submit" class="btn btn-outline-primary" id="botao" value="adicionaAluno" >Cadastrar</button>
-  <button type="submit" class="btn btn-outline-primary" id="botaoEditar" value="listaAlunos">Editar</button>
+  <button type="submit" class="btn btn-outline-primary" id="botaoEditar" value="editaAlunos" >Editar Selecionado</button>
   <button type="submit" class="btn btn-outline-primary" id="botaoDeletar">Deletar</button>
 </form>
        <div class="row mt-4">
@@ -73,7 +74,7 @@
             <table class="table table-striped table-bordered table-hover">
               <thead>
               <tr>
-                <th>#</th>
+            	<th>Matricula</th>
                 <th>Nome</th>
                 <th>CPF</th>
                 <th>Endereço</th>
@@ -82,20 +83,26 @@
                 <th>Curso</th>
                 <th>Data De Nascimento</th>
                 <th>Sexo</th>
+                <th></th>
               </tr>
               </thead>
 	              <tbody>
 					<c:forEach items="${alunos}" var="aluno">
-						<tr>
-							<td>${aluno.nome}</td>
-							<td>${aluno.cpf}</td>
-							<td>${aluno.endereco}</td>
-							<td>${aluno.email}</td>
-							<td>${aluno.telefone}</td>
-							<td>${aluno.curso}</td>
-							<td>${aluno.dataNascimento}</td>
-							<td>${aluno.sexo}</td>
-						</tr>
+						<tr class="linhaAluno">	
+						
+							<td class="matricula">${aluno.numero_matricula}</td>
+							<td class="nome">${aluno.nome}</td>
+							<td class="cpf">${aluno.cpf}</td>
+							<td class="endereco">${aluno.endereco}</td>
+							<td class="email">${aluno.email}</td>
+							<td class="telefone">${aluno.telefone}</td>
+							<td class="curso">${aluno.curso}</td>
+							<td class="dataNascimento">
+								<fmt:formatDate value="${aluno.dataNascimento}" pattern="dd/MM/yyyy"/>
+							</td>
+							<td class="sexo">${aluno.sexo}</td>
+							<td><button type="submit" class="btn btn-outline-primary" id="botaoEditarNaTabela" value="" onclick="editarAluno(this)">Editar</button></td>
+						</tr>																							
 					</c:forEach>
               </tbody>
             </table>

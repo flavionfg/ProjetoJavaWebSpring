@@ -10,7 +10,7 @@ $(document).ready(function() {
 			});
 		}
 	});
-	$("#botao").click(function() {
+	$("#botao, #botaoEditar").click(function()  {
 		var cont = 0;
 		$("#form input").each(function() {
 			if ($(this).val() == "") {
@@ -28,13 +28,12 @@ $(document).ready(function() {
 		});
 
 		if (cont == 0) {
-			var f = document.formulario;
-			f.action = "adicionaAluno";
 			$("#form").submit();
 			alert("Aluno Cadastrado com Sucesso");
 			
 		}
 	});
+	
 });
 
 function validarCadastro(elemento) {
@@ -217,3 +216,20 @@ function Cadastrar(){
 	alert("Entrou na funcao de cadastrar");
 	
 }
+
+function editarAluno(elemento){
+	
+	$("input[name=numero_matricula]").val($(elemento).closest(".linhaAluno").find(".matricula").html());
+	$("input[name=nome]").val($(elemento).closest(".linhaAluno").find(".nome").html());
+	$("input[name=cpf]").val($(elemento).closest(".linhaAluno").find(".cpf").html());
+	$("input[name=endereco]").val($(elemento).closest(".linhaAluno").find(".endereco").html());
+	$("input[name=email]").val($(elemento).closest(".linhaAluno").find(".email").html());
+	$("input[name=telefone]").val($(elemento).closest(".linhaAluno").find(".telefone").html());
+	$("input[name=curso]").val($(elemento).closest(".linhaAluno").find(".curso").html());
+	$("select[name=sexo]").val($(elemento).closest(".linhaAluno").find(".sexo").html());
+	$("input[name=dataNascimentoStr]").val($(elemento).closest(".linhaAluno").find(".dataNascimento").html().trim());
+
+}
+
+
+
