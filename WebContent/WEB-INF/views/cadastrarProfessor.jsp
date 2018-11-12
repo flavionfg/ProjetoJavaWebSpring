@@ -2,6 +2,11 @@
     pageEncoding="ISO-8859-1"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+
 <html>
 <head>
   <meta charset="utf-8">
@@ -15,15 +20,17 @@
   
 <div class="container">
   
-<form>
+<form id="form" action="adicionaProfessor" method="post">
+<input type="hidden" name="fk_cod_cadastro" value="${professor.fk_cod_cadastro}">
+	
   <div class="row">
     <div class="form-group col col-sm-6 col-md-4">
       <label for="nome">Nome</label>
       <input type="text" class="form-control" id="nome" placeholder="Nome completo" name="nome">
-    </div>
+    </div> 
     <div class="form-group col col-sm-6 col-md-4">
       <label for="cpf">CPF</label>
-      <input type="text" class="form-control" id="cpf" placeholder="000.000.000-00" name="cpf">
+      <input type="text" class="form-control" id="cpf" placeholder="000.000.000-00" name="cpf" <c:if test="${professor.fk_cod_cadastro > 0}">readonly</c:if>>
     </div>
     <div class="form-group col col-sm-6 col-md-4">
       <label for="endereco">Endereço</label>
@@ -43,33 +50,30 @@
     </div>
   </div>
 
-
   <div class="form-row">
     <div class="form-group col-md-4">
-      <label for="dataDeNascimento">Data de Nascimento</label>
-      <input type="text" class="form-control" id="dataDeNascimento" placeholder="dia/mes/ano"name="dataDeNascimento">
+      <label for="dataNascimentoStr">Data de Nascimento</label>
+      <input type="text" class="form-control" id="dataNascimentoStr" placeholder="dia/mes/ano"name="dataNascimentoStr">
     </div>
     <div class="form-group col-md-4">
       <label for="sexo">Sexo</label>
       <select id="sexo" class="form-control" name="sexo">
-        <option selected></option>
-        <option>Masculino</option>
-     <option>Feminino</option>
+        <option>Selecione</option>
+        <option>M</option>
+     	<option>F</option>
       </select>
     </div>
 </div>
-  <button type="submit" class="btn btn-outline-primary" id="botao">Cadastrar</button>
-  <button type="submit" class="btn btn-outline-primary" id="botaoEditar">Editar</button>
-  <button type="submit" class="btn btn-outline-primary" id="botaoDeletar">Deletar</button>
+  <button type="submit" class="btn btn-outline-primary" id="botao" value="adicionaProfessor" >Cadastrar</button>
+  <button type="submit" class="btn btn-outline-primary" >Limpar Campos</button>
 </form>
-  
        <div class="row mt-4">
          <div class="col-sm-12">
-             <h3 class="page-header">Dados do Professor</h3>
+           <h3 class="page-header">Dados do Professor</h3>
             <table class="table table-striped table-bordered table-hover">
               <thead>
               <tr>
-                <th>#</th>
+            	<th>Codigo de Cadastro</th>
                 <th>Nome</th>
                 <th>CPF</th>
                 <th>Endereço</th>
@@ -78,42 +82,30 @@
                 <th>Disciplina</th>
                 <th>Data De Nascimento</th>
                 <th>Sexo</th>
+                <th colspan="2" style="text-align:center">Opções</th>
+               
               </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <th>1</th>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                </tr>
-                <tr>
-                  <th>2</th>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                </tr>
-                <tr>
-                  <th>3</th>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                  <td>Conteudo</td>
-                </tr>
+	              <tbody>
+					<c:forEach items="${professor}" var="professor">
+						<tr class="linhaProfessor">	
+						
+							<td class="fk_cod_cadastro">${professor.fk_cod_cadastro}</td>
+							<td class="nome">${professor.nome}</td>
+							<td class="cpf">${professor.cpf}</td>
+							<td class="endereco">${professor.endereco}</td>
+							<td class="email">${professor.email}</td>
+							<td class="telefone">${professor.telefone}</td>
+							<td class="disciplina">${professor.disciplina}</td>
+							<td class="dataNascimento">
+								<fmt:formatDate value="${professor.dataNascimento}" pattern="dd/MM/yyyy"/>
+							</td>
+							<td class="sexo">${professor.sexo}</td>
+							<td><button type="submit" class="btn btn-outline-primary" id="botaoEditarNaTabela" value="" onclick="editarProfessor(this)">Editar</button></td> 
+							<td><a href="excluirProfessor?cpf=${professor.cpf}" class="btn btn-outline-primary" >Deletar</a></td>
+							
+						</tr>																							
+					</c:forEach>
               </tbody>
             </table>
         </div>

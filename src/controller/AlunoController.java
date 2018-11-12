@@ -23,8 +23,8 @@ public class AlunoController {
 	public String cadastrarPessoaNoBanco(@Valid Aluno aluno, BindingResult result, Model model) {
 		AlunoDAO alunodao = new AlunoDAO();
 		if(aluno.getNumero_matricula() > 0){
-			
-			alunodao.editarAluno(aluno);
+			System.out.println("o que tem no nmero de matricula na controller : " + aluno.getNumero_matricula());
+			alunodao.editarPessoa(aluno);
 		}else{
 			alunodao.cadastrarPessoaNoBanco(aluno);
 		}
@@ -41,11 +41,23 @@ public class AlunoController {
 	}
 	
 	@RequestMapping("editaAlunos")
-	public String editarAluno(@Valid Aluno aluno, BindingResult result, Model model) { 
+	public String editarPessoa(@Valid Aluno aluno, BindingResult result, Model model) { 
 		AlunoDAO alunodao = new AlunoDAO();
-		alunodao.editarAluno(aluno);
+		System.out.println("controller antes de chamar");
+		alunodao.editarPessoa(aluno);
+		
 		return "forward:listaAlunos";
 	}
+	
+	@RequestMapping("excluirAluno")
+	public String excluirAluno(Aluno aluno, Model model) { 
+		AlunoDAO alunodao = new AlunoDAO();
+		alunodao.excluirAluno(aluno);
+		listarAluno(model);
+		
+		return "forward:listaAlunos";
+	}
+	
 	
 	
 	

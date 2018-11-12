@@ -21,7 +21,7 @@
 <div class="container">
   
 <form id="form" action="adicionaAluno" method="post">
-<input type="hidden" name="numero_matricula" value="">
+<input type="hidden" name="numero_matricula" value="${aluno.numero_matricula}">
 	
   <div class="row">
     <div class="form-group col col-sm-6 col-md-4">
@@ -30,7 +30,7 @@
     </div> 
     <div class="form-group col col-sm-6 col-md-4">
       <label for="cpf">CPF</label>
-      <input type="text" class="form-control" id="cpf" placeholder="000.000.000-00" name="cpf">
+      <input type="text" class="form-control" id="cpf" placeholder="000.000.000-00" name="cpf" <c:if test="${aluno.numero_matricula > 0}">readonly</c:if>>
     </div>
     <div class="form-group col col-sm-6 col-md-4">
       <label for="endereco">Endereço</label>
@@ -65,8 +65,7 @@
     </div>
 </div>
   <button type="submit" class="btn btn-outline-primary" id="botao" value="adicionaAluno" >Cadastrar</button>
-  <button type="submit" class="btn btn-outline-primary" id="botaoEditar" value="editaAlunos" >Editar Selecionado</button>
-  <button type="submit" class="btn btn-outline-primary" id="botaoDeletar">Deletar</button>
+  <button type="submit" class="btn btn-outline-primary" >Limpar Campos</button>
 </form>
        <div class="row mt-4">
          <div class="col-sm-12">
@@ -83,7 +82,8 @@
                 <th>Curso</th>
                 <th>Data De Nascimento</th>
                 <th>Sexo</th>
-                <th></th>
+                <th colspan="2" style="text-align:center">Opções</th>
+               
               </tr>
               </thead>
 	              <tbody>
@@ -102,6 +102,8 @@
 							</td>
 							<td class="sexo">${aluno.sexo}</td>
 							<td><button type="submit" class="btn btn-outline-primary" id="botaoEditarNaTabela" value="" onclick="editarAluno(this)">Editar</button></td>
+							<td><a href="excluirAluno?cpf=${aluno.cpf}" class="btn btn-outline-primary" >Deletar</a></td>
+							
 						</tr>																							
 					</c:forEach>
               </tbody>

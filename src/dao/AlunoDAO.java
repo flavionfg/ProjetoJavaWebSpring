@@ -27,8 +27,6 @@ public class AlunoDAO {
 			System.out.println("Erro ao instanciar o Banco de Dados: " + e);
 		}
 	}
-	
-	
 	public void cadastrarPessoaNoBanco(Aluno aluno) {
 		
 		Connection conn = null;
@@ -74,9 +72,6 @@ public class AlunoDAO {
 		System.out.println("passou do metodo");
 	}
 	
-	
-	
-	
 	public void cadastrarAluno(Aluno aluno) {
 		System.out.println("cadastrar aluno");
 		Connection conn = null;
@@ -91,12 +86,9 @@ public class AlunoDAO {
 			
 			sql.append("INSERT INTO aluno(fk_cpf,curso)");
 			sql.append("VALUES(?,?)");
-
 			stmt = conn.prepareStatement(sql.toString());
-
 			stmt.setString(1, aluno.getCpf());
 			stmt.setString(2, aluno.getCurso());
-
 			stmt.execute();
 			conn.commit();
 			
@@ -104,10 +96,88 @@ public class AlunoDAO {
 			System.out.println("Erro ao Cadastrar");
 		} finally {
 			db.finalizaObjetos(rs, stmt, conn);
-		}
-		
-//		System.out.println("Professor " + professor.getNome() + " da disciplina " + professor.getDisciplina() + " cadastrado com sucesso!");
+		}	
 	}
+	
+	public void editarPessoa(Aluno aluno) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			conn = db.obterConexao();
+			conn.setAutoCommit(false);
+			StringBuffer sql = new StringBuffer();
+			sql.append("UPDATE pessoa SET nome = ?,endereco = ?,email = ?,telefone = ?,data_nascimento = ?,sexo = ? ");
+			sql.append("WHERE cpf = ?;");
+
+			
+			stmt = conn.prepareStatement(sql.toString());
+			
+			stmt.setString(1, aluno.getNome());
+			stmt.setString(2, aluno.getEndereco());
+			stmt.setString(3, aluno.getEmail());
+			stmt.setString(4, aluno.getTelefone());
+			java.sql.Date d = new java.sql.Date(aluno.getDataNascimento().getTime());
+			stmt.setDate(5, d);
+			stmt.setString(6, aluno.getSexo());
+			stmt.setString(7, aluno.getCpf());
+			System.out.println("cpf" + aluno.getCpf());
+	
+			stmt.execute();
+			conn.commit();
+
+			editarAluno(aluno);
+		
+		} catch (SQLException e) {
+			if (conn != null) {
+				try {
+					conn.rollback();
+				} catch (SQLException e1) {
+					System.out.println("Erro no método AlterarAluno - rollback");
+				}
+			}
+			System.out.println("Erro no método alterarAluno");
+			e.printStackTrace();
+		} finally {
+			db.finalizaObjetos(rs, stmt, conn);
+		}
+	}	
+	
+	public void editarAluno(Aluno aluno) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			conn = db.obterConexao();
+			conn.setAutoCommit(false);
+			StringBuffer sql = new StringBuffer();
+			
+			sql.append("UPDATE aluno SET curso = ?");
+			sql.append("WHERE fk_cpf = ?;");
+			
+			stmt = conn.prepareStatement(sql.toString());
+			
+			stmt.setString(1, aluno.getCurso());
+			stmt.setString(2, aluno.getCpf());
+		
+			stmt.execute();
+			conn.commit();
+		} catch (SQLException e) {
+			if (conn != null) {
+				try {
+					conn.rollback();
+				} catch (SQLException e1) {
+					System.out.println("Erro no método AlterarAluno - rollback");
+				}
+			}
+			System.out.println("Erro no método alterarAluno");
+			e.printStackTrace();
+		} finally {
+			db.finalizaObjetos(rs, stmt, conn);
+		}
+	}	
 	
 	public List<Aluno> listarAluno() {
 		List<Aluno> listaAluno = new ArrayList<Aluno>();
@@ -145,7 +215,6 @@ public class AlunoDAO {
 		return listaAluno;
 	}
 	
-	
 	public List<Professor> consultarListaProfessor() {
 
 		List<Professor> listaProfessor = new ArrayList<Professor>();
@@ -179,7 +248,8 @@ public class AlunoDAO {
 		return listaProfessor;
 	}
 	
-	public void editarAluno(Aluno aluno) {
+	public void excluirPessoa(String cpf) {
+
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -189,37 +259,49 @@ public class AlunoDAO {
 			conn.setAutoCommit(false);
 
 			StringBuffer sql = new StringBuffer();
-			
-			
-			sql.append("UPDATE aluno SET nome = ?,curso = ?,endereco = ?,email = ?,telefone = ?,data_nascimento = ?,sexo = ? ");
-			sql.append("WHERE numero_matricula = ?;");
-			
+			sql.append("Delete From pessoa ");
+			sql.append("WHERE cpf = ?;");
 			stmt = conn.prepareStatement(sql.toString());
-	
-			stmt.setString(1, aluno.getNome());
-			stmt.setString(2, aluno.getCurso());
-			stmt.setString(3, aluno.getEndereco());
-			stmt.setString(4, aluno.getEmail());
-			java.sql.Date d = new java.sql.Date(aluno.getDataNascimento().getTime());
-			stmt.setDate(5, d);
-			stmt.setString(6, aluno.getSexo());
-			stmt.setInt(7, aluno.getNumero_matricula());
-	
+			stmt.setString(1, cpf);
 			stmt.execute();
 			conn.commit();
+		
+			
 		} catch (SQLException e) {
-			if (conn != null) {
-				try {
-					conn.rollback();
-				} catch (SQLException e1) {
-					System.out.println("Erro no método AlterarAluno - rollback");
-				}
-			}
-			System.out.println("Erro no método alterarAluno");
+			System.out.println("Erro no método ");
 			e.printStackTrace();
 		} finally {
 			db.finalizaObjetos(rs, stmt, conn);
 		}
-	}	
-	
+		
+	}
+
+	public void excluirAluno(Aluno aluno) {
+
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			conn = db.obterConexao();
+			conn.setAutoCommit(false);
+
+			StringBuffer sql = new StringBuffer();
+			sql.append("DELETE from aluno ");
+			sql.append("WHERE fk_cpf = ?;");
+			stmt = conn.prepareStatement(sql.toString());
+			stmt.setString(1, aluno.getCpf());
+			
+			stmt.execute();
+			conn.commit();
+			
+			excluirPessoa(aluno.getCpf());
+			
+		} catch (SQLException e) {
+			System.out.println("Erro no método excluir aluno ");
+			e.printStackTrace();
+		} finally {
+			db.finalizaObjetos(rs, stmt, conn);
+		}
+	}
 }

@@ -16,6 +16,11 @@ public class Pessoa {
 	private String sexo;
 	private String telefone;
 	private String email;
+	
+	
+	public Pessoa(){
+		
+	}
 
 	public String getNome() {
 		return nome;
