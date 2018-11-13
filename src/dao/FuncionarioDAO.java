@@ -11,6 +11,7 @@ import java.util.List;
 import javax.naming.NamingException;
 import javax.swing.JOptionPane;
 
+
 import model.Funcionario;
 
 public class FuncionarioDAO {
@@ -69,7 +70,7 @@ public class FuncionarioDAO {
 			db.finalizaObjetos(rs, stmt, conn);
 		}
 		
-//		System.out.println("Aluno " + pessoa.getNome() + "CPF  " + pessoa.getCpf() + "Data de Nascimento :" + pessoa.getDataNascimento() + "Endereço :" + pessoa.getEndereco() + "Sexo" + pessoa.getSexo() + "Telefone : " + pessoa.getTelefone() + "Email : "+ pessoa.getEmail() + "cadastrado com sucesso!");
+//		System.out.println("funcionario " + pessoa.getNome() + "CPF  " + pessoa.getCpf() + "Data de Nascimento :" + pessoa.getDataNascimento() + "Endereço :" + pessoa.getEndereco() + "Sexo" + pessoa.getSexo() + "Telefone : " + pessoa.getTelefone() + "Email : "+ pessoa.getEmail() + "cadastrado com sucesso!");
 	}
 	
 	
@@ -154,6 +155,49 @@ public class FuncionarioDAO {
 //		return listaProfessor;
 //	}
 //	
+	public void editarPessoa(Funcionario funcionario) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			conn = db.obterConexao();
+			conn.setAutoCommit(false);
+			StringBuffer sql = new StringBuffer();
+			sql.append("UPDATE pessoa SET nome = ?,endereco = ?,email = ?,telefone = ?,data_nascimento = ?,sexo = ? ");
+			sql.append("WHERE cpf = ?;");
+
+			stmt = conn.prepareStatement(sql.toString());
+			
+			stmt.setString(1, funcionario.getNome());
+			stmt.setString(2, funcionario.getEndereco());
+			stmt.setString(3, funcionario.getEmail());
+			stmt.setString(4, funcionario.getTelefone());
+			java.sql.Date d = new java.sql.Date(funcionario.getDataNascimento().getTime());
+			stmt.setDate(5, d);
+			stmt.setString(6, funcionario.getSexo());
+			stmt.setString(7, funcionario.getCpf());
+		
+	
+			stmt.execute();
+			conn.commit();
+
+			alterarFuncionario(funcionario);
+		
+		} catch (SQLException e) {
+			if (conn != null) {
+				try {
+					conn.rollback();
+				} catch (SQLException e1) {
+					System.out.println("Erro no método Alterarfuncionario - rollback");
+				}
+			}
+			System.out.println("Erro no método alterarfuncionario");
+			e.printStackTrace();
+		} finally {
+			db.finalizaObjetos(rs, stmt, conn);
+		}
+	}	
 	
 
 	public void alterarFuncionario(Funcionario funcionario) {
@@ -167,15 +211,18 @@ public class FuncionarioDAO {
 
 			StringBuffer sql = new StringBuffer();
 			
-			
-			
-			sql.append("UPDATE funcionario SET cargo = ?,salario = ?,vale_alimentacao = ?,vale_refeicao = ?,vale_trasnporte = ?");
+			sql.append("UPDATE funcionario SET cargo = ?,salario = ?,vale_alimentacao = ?,vale_refeicao = ?,vale_transporte = ?");
 			sql.append("WHERE cod_cadastro = ?;");
 
 			stmt = conn.prepareStatement(sql.toString());
 			
-			stmt.setString(1, funcionario.getCargo()); // ta certo?
-	
+			stmt.setString(1, funcionario.getCargo()); 
+			stmt.setDouble(2, funcionario.getSalario());
+			stmt.setDouble(3, funcionario.getValeAlimentacao());
+			stmt.setDouble(3, funcionario.getValeRefeicao());
+			stmt.setDouble(4, funcionario.getValeTransporte());
+			stmt.setString(5, funcionario.getCpf());
+			
 			stmt.execute();
 			conn.commit();
 		} catch (SQLException e) {

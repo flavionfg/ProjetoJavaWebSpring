@@ -6,7 +6,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-
 <html>
 <head>
   <meta charset="utf-8">
@@ -58,9 +57,9 @@
     <div class="form-group col-md-4">
       <label for="sexo">Sexo</label>
       <select id="sexo" class="form-control" name="sexo">
-        <option>Selecione</option>
-        <option>M</option>
-     	<option>F</option>
+        <option value="">Selecione</option>
+        <option value="m">M</option>
+     	<option value="f">F</option>
       </select>
     </div>
 </div>
@@ -82,14 +81,12 @@
                 <th>Curso</th>
                 <th>Data De Nascimento</th>
                 <th>Sexo</th>
-                <th colspan="2" style="text-align:center">Opções</th>
-               
+                <th colspan="2" style="text-align:center">Opções</th>         
               </tr>
               </thead>
 	              <tbody>
 					<c:forEach items="${alunos}" var="aluno">
 						<tr class="linhaAluno">	
-						
 							<td class="matricula">${aluno.numero_matricula}</td>
 							<td class="nome">${aluno.nome}</td>
 							<td class="cpf">${aluno.cpf}</td>
@@ -103,7 +100,6 @@
 							<td class="sexo">${aluno.sexo}</td>
 							<td><button type="submit" class="btn btn-outline-primary" id="botaoEditarNaTabela" value="" onclick="editarAluno(this)">Editar</button></td>
 							<td><a href="excluirAluno?cpf=${aluno.cpf}" class="btn btn-outline-primary" >Deletar</a></td>
-							
 						</tr>																							
 					</c:forEach>
               </tbody>

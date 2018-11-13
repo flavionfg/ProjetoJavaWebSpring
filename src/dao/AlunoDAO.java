@@ -9,12 +9,9 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.naming.NamingException;
 import javax.swing.JOptionPane;
-
 import model.Aluno;
-import model.Professor;
 
 public class AlunoDAO {
 	
@@ -111,7 +108,6 @@ public class AlunoDAO {
 			sql.append("UPDATE pessoa SET nome = ?,endereco = ?,email = ?,telefone = ?,data_nascimento = ?,sexo = ? ");
 			sql.append("WHERE cpf = ?;");
 
-			
 			stmt = conn.prepareStatement(sql.toString());
 			
 			stmt.setString(1, aluno.getNome());
@@ -214,40 +210,7 @@ public class AlunoDAO {
 		
 		return listaAluno;
 	}
-	
-	public List<Professor> consultarListaProfessor() {
 
-		List<Professor> listaProfessor = new ArrayList<Professor>();
-
-		Connection conn = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-
-		try {
-			conn = db.obterConexao();
-
-			String sql = "SELECT  "
-					+ "FROM  "
-					+ "ORDER BY nivel ASC";
-
-			stmt = conn.prepareStatement(sql.toString());
-
-			rs = stmt.executeQuery();
-
-			while (rs.next()) {
-				Professor professor = new Professor();
-				listaProfessor.add(professor);
-			}
-
-		} catch (SQLException e) {
-			System.out.println("Erro no método consultarListaProfessor");
-			e.printStackTrace();
-		} finally {
-			db.finalizaObjetos(rs, stmt, conn);
-		}
-		return listaProfessor;
-	}
-	
 	public void excluirPessoa(String cpf) {
 
 		Connection conn = null;
@@ -291,7 +254,6 @@ public class AlunoDAO {
 			sql.append("WHERE fk_cpf = ?;");
 			stmt = conn.prepareStatement(sql.toString());
 			stmt.setString(1, aluno.getCpf());
-			
 			stmt.execute();
 			conn.commit();
 			

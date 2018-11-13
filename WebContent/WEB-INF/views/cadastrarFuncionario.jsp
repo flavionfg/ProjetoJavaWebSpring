@@ -30,7 +30,7 @@
     </div> 
     <div class="form-group col col-sm-6 col-md-4">
       <label for="cpf">CPF</label>
-      <input type="text" class="form-control" id="cpf" placeholder="000.000.000-00" name="cpf" <c:if test="${professor.fk_cod_cadastro > 0}">readonly</c:if>>
+      <input type="text" class="form-control" id="cpf" placeholder="000.000.000-00" name="cpf" >
     </div>
     <div class="form-group col col-sm-6 col-md-4">
       <label for="endereco">Endereço</label>
@@ -44,34 +44,82 @@
       <label for="telefone">Telefone</label>
       <input type="text" class="form-control" id="telefone" placeholder="(00) 0000-00000" name="telefone">
     </div>
-    <div class="form-group col col-sm-6  col-md-4">
-      <label for="cargo">Cargo</label>
-      <input type="text" class="form-control" id="cargo" placeholder="" name="cargo">
-    </div>
-  </div>
-  
-  TERMINAR DE FAZER ESSA PARTE DO FUNCIONARIO!!!
-
-  <div class="form-row">
     <div class="form-group col-md-4">
       <label for="dataNascimentoStr">Data de Nascimento</label>
       <input type="text" class="form-control" id="dataNascimentoStr" placeholder="dia/mes/ano"name="dataNascimentoStr">
     </div>
+  </div>
+
+  <div class="form-row">
     <div class="form-group col-md-4">
       <label for="sexo">Sexo</label>
       <select id="sexo" class="form-control" name="sexo">
-        <option>Selecione</option>
+        <option value="">Selecione</option>
         <option>M</option>
      	<option>F</option>
       </select>
     </div>
+    <div class="form-group col-md-4">
+      <label for="cargo">Cargo</label>
+      <select id="cargo" class="form-control" name="cargo">
+        <option value="">Selecione</option>
+        <option value="professor">Professor</option>
+     	<option>Analista Mainframe</option>
+     	<option>Analista Baixa Plataforma</option>
+     	<option>Programador Mainframe</option>
+     	<option>Programador Baixa Plataforma</option>     	
+     	<option>Lider de Projeto</option>     	
+     	<option>Gerente</option> 
+      </select>
+    </div>
+    <div class="form-group col-md-4 disciplina" style="display:none;">  <!-- a classe disciplina é que vai esconder toda a div -->
+      <label for="disciplina" >Disciplina</label>
+      <select id="disciplina" class="form-control" name="disciplina" >
+        <option>Selecione</option>
+        <option>Banco de Dados</option>
+        <option>Front-end</option>
+     	<option>Java WEB</option>
+     	<option>Linguagem de Programação Java</option>
+     	<option>Outros</option>
+      </select>
+    </div>
 </div>
-  <button type="submit" class="btn btn-outline-primary" id="botao" value="adicionaProfessor" >Cadastrar</button>
+
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="ValeAlimentacao">Vale Alimentação</label>
+      <select id="ValeAlimentacao" class="form-control" name="ValeAlimentacao">
+        <option value="">Selecione</option>
+        <option>Sim</option>
+     	<option>Nao</option>
+      </select>
+    </div>
+    <div class="form-group col-md-4">
+      <label for="valeRefeicao">Vale Refeição</label>
+      <select id="valeRefeicao" class="form-control" name="valeRefeicao">
+        <option value="">Selecione</option>
+        <option>Sim</option>
+     	<option>Não</option>
+      </select>
+    </div>
+    <div class="form-group col-md-4"> 
+      <label for="valeTransporte" >Vale Transporte</label>
+      <select id="valeTransporte" class="form-control" name="valeTransporte" >
+        <option value="">Selecione</option>
+        <option>Sim</option>
+        <option>Não</option>
+      </select>
+    </div>
+</div>
+
+
+
+  <button type="submit" class="btn btn-outline-primary" id="botao" value="adicionafuncionario" >Cadastrar</button>
   <button type="submit" class="btn btn-outline-primary" >Limpar Campos</button>
 </form>
        <div class="row mt-4">
          <div class="col-sm-12">
-           <h3 class="page-header">Dados do Professor</h3>
+           <h3 class="page-header">Dados do Funcionario</h3>
             <table class="table table-striped table-bordered table-hover">
               <thead>
               <tr>
@@ -89,23 +137,22 @@
               </tr>
               </thead>
 	              <tbody>
-					<c:forEach items="${professor}" var="professor">
-						<tr class="linhaProfessor">	
+					<c:forEach items="${funcionario}" var="funcionario">
+						<tr class="linhafuncionario">	
 						
-							<td class="fk_cod_cadastro">${professor.fk_cod_cadastro}</td>
-							<td class="nome">${professor.nome}</td>
-							<td class="cpf">${professor.cpf}</td>
-							<td class="endereco">${professor.endereco}</td>
-							<td class="email">${professor.email}</td>
-							<td class="telefone">${professor.telefone}</td>
-							<td class="disciplina">${professor.disciplina}</td>
+							<td class="fk_cod_cadastro">${funcionario.fk_cod_cadastro}</td>
+							<td class="nome">${funcionario.nome}</td>
+							<td class="cpf">${funcionario.cpf}</td>
+							<td class="endereco">${funcionario.endereco}</td>
+							<td class="email">${funcionario.email}</td>
+							<td class="telefone">${funcionario.telefone}</td>
+							<td class="disciplina">${funcionario.disciplina}</td>
 							<td class="dataNascimento">
-								<fmt:formatDate value="${professor.dataNascimento}" pattern="dd/MM/yyyy"/>
+								<fmt:formatDate value="${funcionario.dataNascimento}" pattern="dd/MM/yyyy"/>
 							</td>
-							<td class="sexo">${professor.sexo}</td>
-							<td><button type="submit" class="btn btn-outline-primary" id="botaoEditarNaTabela" value="" onclick="editarProfessor(this)">Editar</button></td> 
-							<td><a href="excluirProfessor?cpf=${professor.cpf}" class="btn btn-outline-primary" >Deletar</a></td>
-							
+							<td class="sexo">${funcionario.sexo}</td>
+							<td><button type="submit" class="btn btn-outline-primary" id="botaoEditarNaTabela" value="" onclick="editarfuncionario(this)">Editar</button></td> 
+							<td><a href="excluirfuncionario?cpf=${funcionario.cpf}" class="btn btn-outline-primary" >Deletar</a></td>
 						</tr>																							
 					</c:forEach>
               </tbody>

@@ -10,9 +10,23 @@ $(document).ready(function() {
 			});
 		}
 	});
+	
+	$("select").val("").blur(function() {
+		if ($(this).val() == "") {
+			$(this).css({
+				"border" : "1px solid #F00",
+				"padding" : "2px"
+			});
+		}else if($(this).val() == "m" || $(this).val() == "f" ) {
+			$(this).css({
+				"border" : "1px solid #EEE9E9",
+				"padding" : "2px"
+			});
+		}
+	});
 	$("#botao, #botaoEditar").click(function()  {
 		var cont = 0;
-		$("#form input").each(function() {
+		$("#form input[type=text]").each(function() {  // input[type=text] foi colocado isso pq na hora de validar ele pegava um input que estava hidden 
 			if ($(this).val() == "") {
 				
 				$(this).css({
@@ -26,20 +40,42 @@ $(document).ready(function() {
 				} 
 			}
 		});
-
+	
+		if (!validarCadastro($("#sexo"))) {
+			cont++;
+		}
+	
 		if (cont == 0) {
 			$("#form").submit();
 			alert("Aluno Cadastrado com Sucesso");
+			
+		}else{
+			return false;
 			
 		}
 	});
 	
 });
 
+
+// Função para esconder e mostrar a o combo de Disciplina
+
+$(document).ready(function() {
+	
+	$("#cargo").change(function(){
+		if($(this).val() == "professor"){
+			$(".disciplina").show();
+		}else{
+			$(".disciplina").hide();
+		}
+	});
+	
+});
+
+
 function validarCadastro(elemento) {
 	 var retorno = true;
 	
-	 
 		if ($(elemento).prop('name') == "nome") {
 			if(!validaNome($(elemento).val())){
 				alert("Digite um Nome valido");
@@ -52,7 +88,6 @@ function validarCadastro(elemento) {
 				retorno = false;
 			}
 		}
-		
 		if($(elemento).prop('name') == "dataNascimentoStr"){
 			console.log($(elemento).val());
 			if(!validarData($(elemento).val())){
@@ -61,62 +96,31 @@ function validarCadastro(elemento) {
 			}
 
 		}
-		
 		if ($(elemento).prop('name') == "sexo") {
-			if(!validaSexo($(elemento).val())){
-				
+			
+			if($(elemento).val() != "m" && $(elemento).val() != "f"){
+				alert("Escolha um Sexo");	
+				retorno = false;
 			}
 		}
-
-		
 		if($(elemento).prop('name') == "telefone"){
 			if(!validaTelefone($(elemento).val())){
 				alert("Digite um Telefone Valido");
 				retorno = false;
-			};
+			}
 			
 		}
 		
+
+		
+
+		
+		//validar se vai ser funcionario aqui
+		
+		
+		
 		return retorno;
 }
-
-function obterDadosViaJson() {
-	var html = "";
-	var data = {
-		   idTeste: 0,
-		   parametroTeste: 'parametroAserEnviado'
-			};   
-				   
-	$.ajax({
-		url:"obterDadosViaJson",
-		type: "GET",
-		async:false,
-		data: data,
-		dataType:"json",
-	    cache: true,
-		contentType: 'application/x-www-form-urlencoded; charset=iso-8859-1;', 
-		success: function (data) {
-			console.log(data.length);
-			if (data.length > 0) {
-				html = "<table border='1' cellpadding='0' cellspacing='0' width='100%'>";
-				html = html + "<thead><tr><th><span class=''>Id</span></th>";
-				html = html + "<th><span class=''>Descricao</span></th>";
-				html = html + "<th><span class=''>Finalizado</span></th>";
-				html = html + "<th><span class=''>Data finalização</span></th>";
-				html = html + "</tr></thead>";
-			} else {
-			   	html = "<div><span class=''>Dados não encontrados.</span></div>";
-			}
-	         $.each(data, function(index, tarefa) {
-			   	html = html + "<tbody><tr><td><span style='text-align: center;'>" + tarefa.id + "</span></td>";
-				html = html + "<td><span class=''>" + tarefa.descricao + "</span></td>";
-				html = html + "<td><span style='text-align: center;'>" + tarefa.finalizado + "</span></td>";
-				html = html + "<td><span style='text-align: center;'>" + tarefa.dataFinalizacao + "</span></td></tr></tbody>";
-	         });    
-	       $(".listaTarefasDinamica").empty().html(html);
-	    }				
-	});
-}	
 
 function testaCPF(strCPF) {
 	var Soma;
@@ -147,7 +151,6 @@ function testaCPF(strCPF) {
 	return true;
 }
 
-
 function validarData(data) {
 	
 	  var expReg = /^((0[1-9]|[12]\d)\/(0[1-9]|1[0-2])|30\/(0[13-9]|1[0-2])|31\/(0[13578]|1[02]))\/(19|20)?\d{2}$/;
@@ -177,9 +180,7 @@ function validaSexo(sexo){
 	console.log(sexo);
 //	if(sexo == "masculino" || sexo == "feminimo")
 		return true;
-	
 }
-
 
 function validaTelefone(telefone){
 	
@@ -206,8 +207,6 @@ function validaNome(nome){
 	return true;
 }
 
-
-
 function validaSexo(sexo){
 	return !!sexo;
 }
@@ -228,7 +227,6 @@ function editarAluno(elemento){
 	$("input[name=curso]").val($(elemento).closest(".linhaAluno").find(".curso").html());
 	$("select[name=sexo]").val($(elemento).closest(".linhaAluno").find(".sexo").html());
 	$("input[name=dataNascimentoStr]").val($(elemento).closest(".linhaAluno").find(".dataNascimento").html().trim());
-
 }
 
 

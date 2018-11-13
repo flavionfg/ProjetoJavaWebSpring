@@ -9,19 +9,12 @@ public class Funcionario extends Pessoa{
 	int codCadastro;
 	String cargo;
 	double salario;
-	double valeAlimentacao;
-	double valeRefeicao;
-	double valeTransporte;
+	String valeAlimentacao;
+	String valeRefeicao;
+	String valeTransporte;
 	ArrayList<String> filhos = new ArrayList<String>();
 	private String disciplina;
 	
-	
-	public ArrayList<String> getFilhos() {
-		return filhos;
-	}
-	public void setFilhos(ArrayList<String> filhos) {
-		this.filhos = filhos;
-	}
 	public int getCodCadastro() {
 		return codCadastro;
 	}
@@ -40,23 +33,29 @@ public class Funcionario extends Pessoa{
 	public void setSalario(double salario) {
 		this.salario = salario;
 	}
-	public double getValeAlimentacao() {
+	public String getValeAlimentacao() {
 		return valeAlimentacao;
 	}
-	public void setValeAlimentacao(double valeAlimentacao) {
+	public void setValeAlimentacao(String valeAlimentacao) {
 		this.valeAlimentacao = valeAlimentacao;
 	}
-	public double getValeRefeicao() {
+	public String getValeRefeicao() {
 		return valeRefeicao;
 	}
-	public void setValeRefeicao(double valeRefeicao) {
+	public void setValeRefeicao(String valeRefeicao) {
 		this.valeRefeicao = valeRefeicao;
 	}
-	public double getValeTransporte() {
+	public String getValeTransporte() {
 		return valeTransporte;
 	}
-	public void setValeTransporte(double valeTransporte) {
+	public void setValeTransporte(String valeTransporte) {
 		this.valeTransporte = valeTransporte;
+	}
+	public ArrayList<String> getFilhos() {
+		return filhos;
+	}
+	public void setFilhos(ArrayList<String> filhos) {
+		this.filhos = filhos;
 	}
 	public String getDisciplina() {
 		return disciplina;
@@ -64,6 +63,9 @@ public class Funcionario extends Pessoa{
 	public void setDisciplina(String disciplina) {
 		this.disciplina = disciplina;
 	}
+	
+	
+	
 
 
 
