@@ -11,7 +11,7 @@ import java.util.List;
 import javax.naming.NamingException;
 import javax.swing.JOptionPane;
 
-
+import model.Aluno;
 import model.Funcionario;
 
 public class FuncionarioDAO {
@@ -25,8 +25,6 @@ public class FuncionarioDAO {
 			System.out.println("Erro ao instanciar o Banco de Dados: " + e);
 		}
 	}
-	
-	
 	public void cadastrarPessoaNoBanco(Funcionario funcionario) {
 		
 		Connection conn = null;
@@ -47,7 +45,7 @@ public class FuncionarioDAO {
 			stmt.setString(1, funcionario.getNome());
 			stmt.setString(2, funcionario.getCpf());
 			java.sql.Date d = new java.sql.Date(funcionario.getDataNascimento().getTime());
-			stmt.setDate(3, d); // NAO ESTA GRAVANDO O CAMPO DE DATA NASCIMENTO NO BANCO!!!!
+			stmt.setDate(3, d); 
 			stmt.setString(4, funcionario.getEndereco());
 			stmt.setString(5, funcionario.getSexo());
 			stmt.setString(6, funcionario.getTelefone());
@@ -69,14 +67,29 @@ public class FuncionarioDAO {
 		} finally {
 			db.finalizaObjetos(rs, stmt, conn);
 		}
-		
-//		System.out.println("funcionario " + pessoa.getNome() + "CPF  " + pessoa.getCpf() + "Data de Nascimento :" + pessoa.getDataNascimento() + "Endereço :" + pessoa.getEndereco() + "Sexo" + pessoa.getSexo() + "Telefone : " + pessoa.getTelefone() + "Email : "+ pessoa.getEmail() + "cadastrado com sucesso!");
+	
 	}
 	
-	
-	
-	
 	public void cadastrarFuncionario(Funcionario funcionario) {
+		
+		
+		
+		
+		// tirar tudo de filho - fazer TABELA EXCLUSIVA,METODOS
+		//TEM QUE TER FK_COD_CADASTRO
+		
+		
+		
+		// COLOCAR FK_CPF no cadstrao de funcionario
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -88,73 +101,32 @@ public class FuncionarioDAO {
 
 			StringBuffer sql = new StringBuffer();
 			
-			sql.append("INSERT INTO funcionario(cargo,salario,vale_alimentacao,vale_refeicao,vale_trasnporte)"); //aqui ele pega uma primary key de funcionario
-			sql.append("VALUES(?,?,?,?,?)");
+			sql.append("INSERT INTO funcionario(cargo,salario,vale_alimentacao,vale_refeicao,vale_trasnporte,filho_nome,filho_dataNascimento)"); //aqui ele pega uma primary key de funcionario
+			sql.append("VALUES(?,?,?,?,?,?,?,?)");
 
 			stmt = conn.prepareStatement(sql.toString());
 
 			stmt.setString(1, funcionario.getCargo());
 			stmt.setDouble(2, funcionario.getSalario());
-			stmt.setDouble(3, funcionario.getValeAlimentacao());
-			stmt.setDouble(4, funcionario.getValeRefeicao());
-			stmt.setDouble(5, funcionario.getValeTransporte());
+			stmt.setString(3, funcionario.getValeAlimentacao());
+			stmt.setString(4, funcionario.getValeRefeicao());
+			stmt.setString(5, funcionario.getValeTransporte());
+			stmt.setString(6, funcionario.getFilho_nome());
+			java.sql.Date d = new java.sql.Date(funcionario.getFilho_dataNascimento().getTime());
+			stmt.setDate(7, d);
+			
 			stmt.execute();
 			conn.commit();
 			
-			JOptionPane.showMessageDialog(null, "Sucesso ao cadastrar funcionario");
+			System.out.println("Sucesso ao cadastrar um Funcionario.");
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Erro ao cadastrar.");	
+			System.out.println("Erro ao cadastrar um Funcionario.");
 		} finally {
 			db.finalizaObjetos(rs, stmt, conn);
 		}
 		
-//		System.out.println("Professor " + professor.getNome() + " da disciplina " + professor.getDisciplina() + " cadastrado com sucesso!");
 	}
 	
-//	public List<Funcionario> listarFuncionario() {
-//		List<Funcionario> listarFuncionario = new ArrayList<Funcionario>();
-//		
-//		Connection conn = null;
-//		Statement stmt = null;
-//
-//		try {
-//			conn = db.obterConexao();
-//
-//			String sql = "select cargo,salario,vale_alimentacao,vale_refeicao,vale_trasnporte " + "from funcinario ";
-//
-//			
-//			stmt = conn.createStatement();
-//
-//			ResultSet rs = stmt.executeQuery(sql);
-//
-//			while (rs.next()) {
-//				Funcionario funcionario = new Funcionario();
-//				String cargo = rs.getString(cargo);
-//				funcionario.setCargo(cargo);
-//				double salario = rs.getDouble(salario); //pq o metodo getdouble nao recebe double???????????????
-//				funcionario.setSalario(salario);
-//				
-//				double vale_alimentacao = rs.getDouble(vale_alimentacao); 
-//				funcionario.setValeAlimentacao(vale_alimentacao);
-//				
-//				double vale_refeicao = rs.getDouble(vale_refeicao);
-//				funcionario.setValeRefeicao(valeRefeicao);
-//				
-//				double vale_trasnporte = rs.getDouble(vale_trasnporte);
-//				funcionario.setValeTransporte(valeTransporte);
-//				
-//				listarFuncionario.add(funcionario);
-//
-//			}
-//
-//		} catch (SQLException e) {
-//			System.out.println("Erro ao listar funcionario");
-//			e.printStackTrace();
-//		}
-//		
-//		return listaProfessor;
-//	}
-//	
 	public void editarPessoa(Funcionario funcionario) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -211,17 +183,22 @@ public class FuncionarioDAO {
 
 			StringBuffer sql = new StringBuffer();
 			
-			sql.append("UPDATE funcionario SET cargo = ?,salario = ?,vale_alimentacao = ?,vale_refeicao = ?,vale_transporte = ?");
+			sql.append("UPDATE funcionario SET cargo = ?,salario = ?,vale_alimentacao = ?,vale_refeicao = ?,vale_transporte = ?,cpf = ?,filho_nome = ?,filho_dataNascimento");
 			sql.append("WHERE cod_cadastro = ?;");
 
 			stmt = conn.prepareStatement(sql.toString());
 			
 			stmt.setString(1, funcionario.getCargo()); 
 			stmt.setDouble(2, funcionario.getSalario());
-			stmt.setDouble(3, funcionario.getValeAlimentacao());
-			stmt.setDouble(3, funcionario.getValeRefeicao());
-			stmt.setDouble(4, funcionario.getValeTransporte());
+			stmt.setString(3, funcionario.getValeAlimentacao());
+			stmt.setString(3, funcionario.getValeRefeicao());
+			stmt.setString(4, funcionario.getValeTransporte());
 			stmt.setString(5, funcionario.getCpf());
+			stmt.setString(6, funcionario.getFilho_nome());
+			java.sql.Date d = new java.sql.Date(funcionario.getFilho_dataNascimento().getTime());
+			stmt.setDate(7, d);
+			stmt.setInt(8, funcionario.getCodCadastro());
+			
 			
 			stmt.execute();
 			conn.commit();
@@ -239,4 +216,104 @@ public class FuncionarioDAO {
 			db.finalizaObjetos(rs, stmt, conn);
 		}
 	}	
+	
+	
+	public List<Funcionario> listarFuncionario() {
+		List<Funcionario> listaFuncionario = new ArrayList<Funcionario>();
+		
+		Connection conn = null;
+		Statement stmt = null;
+
+		try {
+			conn = db.obterConexao();
+
+			String sql = "select f.codCadastro, f.fk_cpf,f.email,f.sexo,f.endereco,f.telefone,f.data_nascimento,f.cargo,f.salario,f.valeAlimentaca,f.valeRefeicao,f.valeTransporte,f.filho_nome,f.filho_dataNascimento from funcionario a inner join pessoa p on p.cpf = f.fk_cpf ";
+			
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				Funcionario funcionario = new Funcionario();
+				
+				funcionario.setNome(rs.getString(("nome")));
+				funcionario.setCpf(rs.getString(("fk_cpf")));
+				funcionario.setEmail(rs.getString("email"));
+				funcionario.setSexo(rs.getString("sexo"));
+				funcionario.setEndereco(rs.getString("endereco"));
+				funcionario.setTelefone(rs.getString("telefone"));
+				funcionario.setDataNascimento(rs.getDate("data_nascimento"));
+				funcionario.setCargo(rs.getString("cargo"));
+				funcionario.setSalario(rs.getDouble("salario"));
+				funcionario.setValeAlimentacao(rs.getString("valeAlimentaca"));
+				funcionario.setValeRefeicao(rs.getString("valeRefeicao"));
+				funcionario.setValeTransporte(rs.getString("valeTransporte"));
+				funcionario.setFilho_nome(rs.getString("filho_nome"));
+				funcionario.setFilho_dataNascimento(rs.getDate("filho_dataNascimento"));
+				
+			
+				listaFuncionario.add(funcionario);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Erro ao listar Funcionario");
+			e.printStackTrace();
+		}
+		
+		return listaFuncionario;
+	}
+	
+	public void excluirPessoa(String cpf) {
+
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			conn = db.obterConexao();
+			conn.setAutoCommit(false);
+
+			StringBuffer sql = new StringBuffer();
+			sql.append("Delete From pessoa ");
+			sql.append("WHERE cpf = ?;");
+			stmt = conn.prepareStatement(sql.toString());
+			stmt.setString(1, cpf);
+			stmt.execute();
+			conn.commit();
+		
+			
+		} catch (SQLException e) {
+			System.out.println("Erro no método de excluir pessoa na classe FuncionarioDAO.");
+			e.printStackTrace();
+		} finally {
+			db.finalizaObjetos(rs, stmt, conn);
+		}
+		
+	}
+	
+	public void excluirFuncionario(Funcionario funcionario) {
+
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			conn = db.obterConexao();
+			conn.setAutoCommit(false);
+
+			StringBuffer sql = new StringBuffer();
+			sql.append("DELETE from funcionario ");
+			sql.append("WHERE cpf = ?;");
+			stmt = conn.prepareStatement(sql.toString());
+			stmt.setString(1, funcionario.getCpf());
+			stmt.execute();
+			conn.commit();
+			
+			excluirPessoa(funcionario.getCpf());
+			
+		} catch (SQLException e) {
+			System.out.println("Erro no método excluir Funcionario ");
+			e.printStackTrace();
+		} finally {
+			db.finalizaObjetos(rs, stmt, conn);
+		}
+	}
 }	

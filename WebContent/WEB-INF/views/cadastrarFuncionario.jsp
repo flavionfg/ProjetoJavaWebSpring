@@ -21,7 +21,7 @@
 <div class="container">
   
 <form id="form" action="adicionaFuncionario" method="post">
-<input type="hidden" name="cod_cadastro" value="${funcionario.cod_cadastro}">
+<input type="hidden" name="cod_cadastro" value="">  <!-- COLOCAR NO VALUE O FUNCUIONARIO.CODCASTRO QUANDO FOR EDITAR -->
 	
   <div class="row">
     <div class="form-group col col-sm-6 col-md-4">
@@ -55,8 +55,8 @@
       <label for="sexo">Sexo</label>
       <select id="sexo" class="form-control" name="sexo">
         <option value="">Selecione</option>
-        <option>M</option>
-     	<option>F</option>
+        <option value="m">M</option>
+     	<option value="f">F</option>
       </select>
     </div>
     <div class="form-group col-md-4">
@@ -132,6 +132,14 @@
                 <th>Disciplina</th>
                 <th>Data De Nascimento</th>
                 <th>Sexo</th>
+                <th>Cargo</th>
+                <th>Salario</th>
+                <th>Vale Alimentacao</th>
+                <th>Vale Refeicao</th>
+                <th>Vale Transporte</th>
+              
+               <!-- Falta a Th dos filhos -->
+               
                 <th colspan="2" style="text-align:center">Opções</th>
                
               </tr>
@@ -140,7 +148,7 @@
 					<c:forEach items="${funcionario}" var="funcionario">
 						<tr class="linhafuncionario">	
 						
-							<td class="fk_cod_cadastro">${funcionario.fk_cod_cadastro}</td>
+							<td class="cod_cadastro">${funcionario.cod_cadastro}</td>
 							<td class="nome">${funcionario.nome}</td>
 							<td class="cpf">${funcionario.cpf}</td>
 							<td class="endereco">${funcionario.endereco}</td>
@@ -151,6 +159,15 @@
 								<fmt:formatDate value="${funcionario.dataNascimento}" pattern="dd/MM/yyyy"/>
 							</td>
 							<td class="sexo">${funcionario.sexo}</td>
+							<td class="cargo">${funcionario.cargo}</td>
+							<td class="salario">${funcionario.salario}</td>
+							<td class="valeAlimentacao">${funcionario.valeAlimentacao}</td>
+							<td class="valeRefeicao">${funcionario.valeRefeicao}</td>
+							<td class="valeTransporte">${funcionario.valeTransporte}</td>
+							
+							 <!-- Falta a Th dos filhos -->
+							 
+							 
 							<td><button type="submit" class="btn btn-outline-primary" id="botaoEditarNaTabela" value="" onclick="editarfuncionario(this)">Editar</button></td> 
 							<td><a href="excluirfuncionario?cpf=${funcionario.cpf}" class="btn btn-outline-primary" >Deletar</a></td>
 						</tr>																							

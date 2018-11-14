@@ -118,7 +118,7 @@ public class AlunoDAO {
 			stmt.setDate(5, d);
 			stmt.setString(6, aluno.getSexo());
 			stmt.setString(7, aluno.getCpf());
-			System.out.println("cpf" + aluno.getCpf());
+			
 	
 			stmt.execute();
 			conn.commit();
