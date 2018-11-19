@@ -25,6 +25,8 @@ public class Filhos {
 	}
 	public Date getData_nascimento() {
 		
+		// retornar um DATA DO JAVA
+		
 		Util util = new Util();
 		if (getData_nascimentoStr() != null) {
 			data_nascimento = util.transformaData(getData_nascimentoStr());
