@@ -1,5 +1,6 @@
 package dao;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +13,7 @@ import javax.naming.NamingException;
 import javax.swing.JOptionPane;
 
 import model.Aluno;
+import model.Filhos;
 import model.Funcionario;
 
 public class FuncionarioDAO {
@@ -60,9 +62,9 @@ public class FuncionarioDAO {
 			e.printStackTrace();	
 			System.out.println(e);
 			if (error.matches("(.*)Duplicate entry(.*)")) {
-				JOptionPane.showMessageDialog(null, "Cpf já existente.");	
+				System.out.println("Cpf já existente.");
 			} else {
-				JOptionPane.showMessageDialog(null, "Erro ao cadastrar");
+				System.out.println("Erro ao cadastrar.");
 			}
 		} finally {
 			db.finalizaObjetos(rs, stmt, conn);
@@ -71,26 +73,7 @@ public class FuncionarioDAO {
 	}
 	
 	public void cadastrarFuncionario(Funcionario funcionario) {
-		
-		
-		
-		
-		// tirar tudo de filho - fazer TABELA EXCLUSIVA,METODOS
-		//TEM QUE TER FK_COD_CADASTRO
-		
-		
-		
-		// COLOCAR FK_CPF no cadstrao de funcionario
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -101,8 +84,8 @@ public class FuncionarioDAO {
 
 			StringBuffer sql = new StringBuffer();
 			
-			sql.append("INSERT INTO funcionario(cargo,salario,vale_alimentacao,vale_refeicao,vale_trasnporte,filho_nome,filho_dataNascimento)"); //aqui ele pega uma primary key de funcionario
-			sql.append("VALUES(?,?,?,?,?,?,?,?)");
+			sql.append("INSERT INTO funcionario(cargo,salario,vale_alimentacao,vale_refeicao,vale_trasnporte,fk_cpf)"); //aqui ele pega uma primary key de funcionario
+			sql.append("VALUES(?,?,?,?,?,?)");
 
 			stmt = conn.prepareStatement(sql.toString());
 
@@ -111,16 +94,85 @@ public class FuncionarioDAO {
 			stmt.setString(3, funcionario.getValeAlimentacao());
 			stmt.setString(4, funcionario.getValeRefeicao());
 			stmt.setString(5, funcionario.getValeTransporte());
-			stmt.setString(6, funcionario.getFilho_nome());
-			java.sql.Date d = new java.sql.Date(funcionario.getFilho_dataNascimento().getTime());
-			stmt.setDate(7, d);
+			stmt.setString(6, funcionario.getFk_cpf());
+			// não deveria setar no fk_cpf o cpf da pessoa?
 			
 			stmt.execute();
 			conn.commit();
 			
+			if (!funcionario.getFilhos().isEmpty()) {
+				
+				String sqlLastInsert = "SELECT LAST_INSERT_ID()";
+				
+				db.finalizaObjetos(null, stmt, null);
+				stmt = conn.prepareStatement(sqlLastInsert);
+				rs = stmt.executeQuery();
+
+				if (rs.next()) {
+					
+					funcionario.setCodCadastro(rs.getInt(1));
+//					
+//					programacaoDuplicataCotacaoVO.setId(rs.getInt(1));
+//					registrarParcelasDuplicatasCotacao(programacaoDuplicataCotacaoVO);
+					db.finalizaObjetos(null, stmt, null);
+				}
+
+				//selectLastIntid
+				
+				//for setando o id para cada fillho do array existente no funcionario
+	
+				cadastrarFilhos(funcionario);
+			}
+			
+			
 			System.out.println("Sucesso ao cadastrar um Funcionario.");
 		} catch (SQLException e) {
 			System.out.println("Erro ao cadastrar um Funcionario.");
+		} finally {
+			db.finalizaObjetos(rs, stmt, conn);
+		}
+		
+	}
+	
+	
+	public void cadastrarFilhos(Funcionario funcionario) {
+		
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			conn = db.obterConexao();
+			conn.setAutoCommit(false);
+
+			StringBuffer sql = new StringBuffer();
+			sql.append("INSERT INTO filhos(nome,data_nascimento,fk_cod_cadastro)"); 
+			sql.append("VALUES(?,?,?)");
+
+			stmt = conn.prepareStatement(sql.toString());
+			
+			
+			for(Filhos filho : funcionario.getFilhos()){
+				stmt.setString(1, filho.getNome());
+				
+				// CONVERTENDO DE DATA JAVA PARA DATE SQL
+				java.sql.Date dataSql = new java.sql.Date(filho.getData_nascimento().getTime());
+				stmt.setDate(2, dataSql);
+				
+				
+				stmt.setInt(3, funcionario.getCodCadastro());
+
+				stmt.addBatch();
+			}
+		
+			// como vou linkar o filho com o funcionario
+
+			stmt.executeBatch();
+			conn.commit();
+			
+			System.out.println("Sucesso ao cadastrar um Filho.");
+		} catch (SQLException e) {
+			System.out.println("Erro ao cadastrar um Filho.");
 		} finally {
 			db.finalizaObjetos(rs, stmt, conn);
 		}

@@ -10,6 +10,7 @@ public class Filhos {
 	private Date data_nascimento;
 	private String data_nascimentoStr;
 	private int fk_cod_cadastro;
+	
 	public int getFilho_id() {
 		return filho_id;
 	}
@@ -51,5 +52,3 @@ public class Filhos {
 
 
 }
-
-

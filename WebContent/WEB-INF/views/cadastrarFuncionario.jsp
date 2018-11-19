@@ -14,6 +14,13 @@
   <link rel="stylesheet" href="css/style.css">
   <title>Cadastrar Funcionario</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+	<style>
+	.hidden {
+	    display: none;
+	}
+	</style>
+
 </head>
 <body>
   
@@ -114,6 +121,32 @@
 
 
 
+
+
+
+
+  <div class="form-row" method="post">
+   
+   <span>Inputs variáveis <input type="button" class="adicionar" title="Adicionar linha" style="cursor: pointer;" value="adicionar" /></span>
+   
+   
+     <div class="form-group col col-sm-6 col-md-4, modelo">  <!-- duas classes , esta é a sintaxe -->
+      <label for="nomeFilho">Nome</label>
+      <input type="text" class="form-control" id="nomeFilho" placeholder="Nome completo" name="nomeFilho">
+     
+      <label for="nomeFilho">Data de Nascimento</label>
+      <input type="text" class="form-control" id="dataNascimentoFilho" placeholder="dia/mes/ano" name="dataNascimentoFilho">
+      <a href="#" class="linkExcluir hidden" onclick="excluirLinha(this)">Excluir linha</a>
+      
+      
+    </div> 
+    <div class="fim"></div>
+    <br /> 
+	<input type="submit" class="btnSalvar" value="${filho_id eq 0 ? 'Adicionar' : 'Alterar'}">
+</div>
+
+
+
   <button type="submit" class="btn btn-outline-primary" id="botao" value="adicionafuncionario" >Cadastrar</button>
   <button type="submit" class="btn btn-outline-primary" >Limpar Campos</button>
 </form>
@@ -180,6 +213,26 @@
 
   <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
   <script type="text/javascript" src="js/validarCadastro.js"></script>
+  
+  	<script type="text/javascript">
+		$(document).ready(function(e) {
+			$(".adicionar").click(function(e){
+						
+				var novaLinha = $(".modelo").clone();
+				novaLinha.removeClass("modelo").addClass("nova").find("input[name=nomeFilho]").focus();
+				novaLinha.find(".linkExcluir").removeClass("hidden");
+				
+				novaLinha.insertBefore(".fim");
+				
+				return false;
+			});
+		});
+		
+		function excluirLinha(elemento) {			
+			elemento.closest(".nova").remove();
+		}
+
+	</script>
 
 </body>
 </html>

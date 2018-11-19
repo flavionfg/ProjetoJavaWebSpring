@@ -62,11 +62,11 @@ public class FilhosDAO {
 			String error = e.getMessage();
 			e.printStackTrace();	
 			System.out.println(e);
-			if (error.matches("(.*)Duplicate entry(.*)")) {
-				JOptionPane.showMessageDialog(null, "Cpf já existente.");	
-			} else {
-				JOptionPane.showMessageDialog(null, "Erro ao cadastrar");
-			}
+//			if (error.matches("(.*)Duplicate entry(.*)")) {
+//				JOptionPane.showMessageDialog(null, "Cpf já existente.");	
+//			} else {
+//				JOptionPane.showMessageDialog(null, "Erro ao cadastrar");
+//			}
 		} finally {
 			db.finalizaObjetos(rs, stmt, conn);
 		}

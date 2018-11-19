@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.ArrayList;
+
 import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import dao.AlunoDAO;
 import dao.FuncionarioDAO;
 import model.Aluno;
+import model.Filhos;
 import model.Funcionario;
 
 @Controller
@@ -20,8 +23,22 @@ public class FuncionarioController {
 	}
 	
 	@RequestMapping("adicionaFuncionario")
-	public String cadastrarPessoaNoBanco(@Valid Funcionario funcionario, BindingResult result, Model model) {
+	public String cadastrarPessoaNoBanco(@Valid Funcionario funcionario, BindingResult result, Model model, String[] nomeFilho,String[] dataNascimentoFilho) {
 		FuncionarioDAO funcionariodao = new FuncionarioDAO();
+		
+		ArrayList<Filhos> filhos = new ArrayList();
+	
+		for (int i = 0; i < nomeFilho.length; i++) {
+			// vai criar um objeto para cada Filho
+			Filhos filho = new Filhos();
+			filho.setNome(nomeFilho[i]);
+			filho.setNome(dataNascimentoFilho[i]);
+			System.out.println(nomeFilho[i]);
+			filhos.add(filho);
+		}
+		
+		funcionario.setFilhos(filhos);
+		
 		if(funcionario.getCodCadastro()> 0){
 			funcionariodao.editarPessoa(funcionario);
 		}else{
