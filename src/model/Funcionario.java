@@ -7,7 +7,6 @@ import controller.Util;
 public class Funcionario extends Pessoa{
 
 	int codCadastro;
-	private String fk_cpf;
 	String cargo;
 	double salario;
 	String valeAlimentacao;
@@ -16,12 +15,6 @@ public class Funcionario extends Pessoa{
 	private String disciplina;
 	private ArrayList<Filhos> filhos;
 	
-	public String getFk_cpf() {
-		return fk_cpf;
-	}
-	public void setFk_cpf(String fk_cpf) {
-		this.fk_cpf = fk_cpf;
-	}
 	public int getCodCadastro() {
 		return codCadastro;
 	}

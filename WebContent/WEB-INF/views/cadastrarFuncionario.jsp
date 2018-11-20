@@ -24,11 +24,10 @@
 </head>
 <body>
   
-  
 <div class="container">
   
 <form id="form" action="adicionaFuncionario" method="post">
-<input type="hidden" name="cod_cadastro" value="">  <!-- COLOCAR NO VALUE O FUNCUIONARIO.CODCASTRO QUANDO FOR EDITAR -->
+<input type="hidden" name="codCadastro" value="">  <!-- COLOCAR NO VALUE O FUNCUIONARIO.CODCASTRO QUANDO FOR EDITAR -->
 	
   <div class="row">
     <div class="form-group col col-sm-6 col-md-4">
@@ -56,7 +55,32 @@
       <input type="text" class="form-control" id="dataNascimentoStr" placeholder="dia/mes/ano"name="dataNascimentoStr">
     </div>
   </div>
-
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="valeAlimentacao">Vale Alimentação</label>
+      <select id="valeAlimentacao" class="form-control" name="valeAlimentacao">
+        <option value="">Selecione</option>
+        <option>Sim</option>
+     	<option>Nao</option>
+      </select>
+    </div>
+    <div class="form-group col-md-4">
+      <label for="valeRefeicao">Vale Refeição</label>
+      <select id="valeRefeicao" class="form-control" name="valeRefeicao">
+        <option value="">Selecione</option>
+        <option>Sim</option>
+     	<option>Não</option>
+      </select>
+    </div>
+    <div class="form-group col-md-4"> 
+      <label for="valeTransporte" >Vale Transporte</label>
+      <select id="valeTransporte" class="form-control" name="valeTransporte" >
+        <option value="">Selecione</option>
+        <option>Sim</option>
+        <option>Não</option>
+      </select>
+    </div>
+</div>
   <div class="form-row">
     <div class="form-group col-md-4">
       <label for="sexo">Sexo</label>
@@ -94,41 +118,14 @@
 
   <div class="form-row">
     <div class="form-group col-md-4">
-      <label for="ValeAlimentacao">Vale Alimentação</label>
-      <select id="ValeAlimentacao" class="form-control" name="ValeAlimentacao">
-        <option value="">Selecione</option>
-        <option>Sim</option>
-     	<option>Nao</option>
-      </select>
-    </div>
-    <div class="form-group col-md-4">
-      <label for="valeRefeicao">Vale Refeição</label>
-      <select id="valeRefeicao" class="form-control" name="valeRefeicao">
-        <option value="">Selecione</option>
-        <option>Sim</option>
-     	<option>Não</option>
-      </select>
-    </div>
-    <div class="form-group col-md-4"> 
-      <label for="valeTransporte" >Vale Transporte</label>
-      <select id="valeTransporte" class="form-control" name="valeTransporte" >
-        <option value="">Selecione</option>
-        <option>Sim</option>
-        <option>Não</option>
-      </select>
+      <label for="salario">Salario</label>
+      <input type="text" class="form-control" id="salario" placeholder="0000.00" name="salario">
     </div>
 </div>
 
-
-
-
-
-
-
   <div class="form-row" method="post">
    
-   <span>Inputs variáveis <input type="button" class="adicionar" title="Adicionar linha" style="cursor: pointer;" value="adicionar" /></span>
-   
+   <span>Filhos <input type="button" class="adicionar" title="Adicionar linha" style="cursor: pointer;" value="adicionar" /></span>
    
      <div class="form-group col col-sm-6 col-md-4, modelo">  <!-- duas classes , esta é a sintaxe -->
       <label for="nomeFilho">Nome</label>
@@ -138,15 +135,11 @@
       <input type="text" class="form-control" id="dataNascimentoFilho" placeholder="dia/mes/ano" name="dataNascimentoFilho">
       <a href="#" class="linkExcluir hidden" onclick="excluirLinha(this)">Excluir linha</a>
       
-      
     </div> 
     <div class="fim"></div>
     <br /> 
 	<input type="submit" class="btnSalvar" value="${filho_id eq 0 ? 'Adicionar' : 'Alterar'}">
 </div>
-
-
-
   <button type="submit" class="btn btn-outline-primary" id="botao" value="adicionafuncionario" >Cadastrar</button>
   <button type="submit" class="btn btn-outline-primary" >Limpar Campos</button>
 </form>
@@ -156,7 +149,7 @@
             <table class="table table-striped table-bordered table-hover">
               <thead>
               <tr>
-            	<th>Codigo de Cadastro</th>
+            	<th>ID</th>
                 <th>Nome</th>
                 <th>CPF</th>
                 <th>Endereço</th>
@@ -170,18 +163,16 @@
                 <th>Vale Alimentacao</th>
                 <th>Vale Refeicao</th>
                 <th>Vale Transporte</th>
-              
-               <!-- Falta a Th dos filhos -->
-               
-                <th colspan="2" style="text-align:center">Opções</th>
+
+                <th colspan="3" style="text-align:center">Opções</th>
                
               </tr>
               </thead>
 	              <tbody>
-					<c:forEach items="${funcionario}" var="funcionario">
+					<c:forEach items="${listaFuncionario}" var="funcionario">
 						<tr class="linhafuncionario">	
 						
-							<td class="cod_cadastro">${funcionario.cod_cadastro}</td>
+							<td class="codCadastro">${funcionario.codCadastro}</td>
 							<td class="nome">${funcionario.nome}</td>
 							<td class="cpf">${funcionario.cpf}</td>
 							<td class="endereco">${funcionario.endereco}</td>
@@ -197,18 +188,19 @@
 							<td class="valeAlimentacao">${funcionario.valeAlimentacao}</td>
 							<td class="valeRefeicao">${funcionario.valeRefeicao}</td>
 							<td class="valeTransporte">${funcionario.valeTransporte}</td>
-							
-							 <!-- Falta a Th dos filhos -->
-							 
-							 
+	 
 							<td><button type="submit" class="btn btn-outline-primary" id="botaoEditarNaTabela" value="" onclick="editarfuncionario(this)">Editar</button></td> 
 							<td><a href="excluirfuncionario?cpf=${funcionario.cpf}" class="btn btn-outline-primary" >Deletar</a></td>
+							<td><button type="submit" class="btn btn-outline-primary" id="botaoEditarNaTabela" value="" onclick="editarfuncionario(this)">Editar Filhos</button></td> 
 						</tr>																							
 					</c:forEach>
               </tbody>
             </table>
         </div>
   </div>
+
+
+  
 </div>
 
   <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
@@ -233,6 +225,5 @@
 		}
 
 	</script>
-
 </body>
 </html>

@@ -29,16 +29,20 @@ public class FuncionarioController {
 		ArrayList<Filhos> filhos = new ArrayList();
 	
 		for (int i = 0; i < nomeFilho.length; i++) {
-			// vai criar um objeto para cada Filho
+		
+			
 			Filhos filho = new Filhos();
 			filho.setNome(nomeFilho[i]);
-			filho.setNome(dataNascimentoFilho[i]);
+			filho.setData_nascimentoStr(dataNascimentoFilho[i]);
+			
 			System.out.println(nomeFilho[i]);
+			System.out.println(dataNascimentoFilho[i]);
+			
 			filhos.add(filho);
 		}
 		
 		funcionario.setFilhos(filhos);
-		
+		System.out.println("Setou filhos no metodo de adicionaFuncionario na FuncionarioController");
 		if(funcionario.getCodCadastro()> 0){
 			funcionariodao.editarPessoa(funcionario);
 		}else{
@@ -51,9 +55,19 @@ public class FuncionarioController {
 	@RequestMapping("listaFuncionarios")
 	public String listarFuncionario(Model model) {
 		FuncionarioDAO funcionario = new FuncionarioDAO();
-		model.addAttribute("funcionario", funcionario.listarFuncionario());
-		return "cadastrarFuncionario"; // retorna para ca mesmo?
+		model.addAttribute("listaFuncionario", funcionario.listarFuncionario());
+
+		return "cadastrarFuncionario"; 
 	}
+	
+	/////////////////////////////////////////////////////////
+	@RequestMapping("listaFilhos")
+	public String listarFilhos(Model model) {
+		FuncionarioDAO funcionario = new FuncionarioDAO();
+		model.addAttribute("listaFilhos", funcionario.listarFilhos());
+		return "cadastrarFuncionario"; 
+	}
+	
 	
 	
 	@RequestMapping("editaFuncionarios")
