@@ -69,7 +69,6 @@ public class FuncionarioDAO {
 	
 	public void cadastrarFuncionario(Funcionario funcionario) {
 
-		System.out.println("Entrou no cadastrarFuncionario");
 		
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -102,9 +101,7 @@ public class FuncionarioDAO {
 			System.out.println("deu commit no CadastrarFuncionario");
 			
 			if (!funcionario.getFilhos().isEmpty()) {
-				
-				
-				System.out.println("Entrou na condição de verificar se tem filhos dentro de cadastrarfuncionario");
+	
 				
 				String sqlLastInsert = "SELECT LAST_INSERT_ID()";
 				
@@ -122,7 +119,10 @@ public class FuncionarioDAO {
 				//selectLastIntid				
 				//for setando o id para cada fillho do array existente no funcionario
 	
-				cadastrarFilhos(funcionario);
+				FilhosDAO filhos = new FilhosDAO();
+				filhos.cadastrarFilhos(funcionario);
+				
+				
 			}
 			
 			
@@ -137,47 +137,8 @@ public class FuncionarioDAO {
 	}
 	
 	
-	public void cadastrarFilhos(Funcionario funcionario) {
-		
-		System.out.println("Entrou no cadastrarFilhos");
-		
-		Connection conn = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-
-		try {
-			conn = db.obterConexao();
-			conn.setAutoCommit(false);
-
-			StringBuffer sql = new StringBuffer();
-			sql.append("INSERT INTO filhos(nome,data_nascimento,fk_cod_cadastro)"); 
-			sql.append("VALUES(?,?,?)");
-
-			stmt = conn.prepareStatement(sql.toString());
-			
-			
-			for(Filhos filho : funcionario.getFilhos()){
-				stmt.setString(1, filho.getNome());
-				// CONVERTENDO DE DATA JAVA PARA DATE SQL
-				java.sql.Date dataSql = new java.sql.Date(filho.getData_nascimento().getTime());
-				stmt.setDate(2, dataSql);
-				stmt.setInt(3, funcionario.getCodCadastro());
-				stmt.addBatch();
-				System.out.println("Executou o addBatch");
-			}
-
-			stmt.executeBatch();
-			conn.commit();
-			
-			System.out.println("Sucesso ao cadastrar um Filho.");
-		} catch (SQLException e) {
-			System.out.println("Erro ao cadastrar um Filho.");
-			e.printStackTrace();
-		} finally {
-			db.finalizaObjetos(rs, stmt, conn);
-		}
-		
-	}
+	
+	
 	
 	public void editarPessoa(Funcionario funcionario) {
 		Connection conn = null;
@@ -278,7 +239,7 @@ public class FuncionarioDAO {
 
 			String sql = "select f.cod_cadastro,p.nome,f.disciplina,f.fk_cpf,p.email,p.sexo,p.endereco,p.telefone,p.data_nascimento,f.cargo,f.salario,f.vale_alimentacao,f.vale_refeicao,f.vale_transporte "
 					+ "from funcionario f inner join pessoa p on p.cpf = f.fk_cpf ";
-			System.out.println("A QUERY DO SELECT DEU CERTO");
+			
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
@@ -298,10 +259,11 @@ public class FuncionarioDAO {
 				funcionario.setValeAlimentacao(rs.getString("vale_alimentacao"));
 				funcionario.setValeRefeicao(rs.getString("vale_refeicao"));
 				funcionario.setValeTransporte(rs.getString("vale_transporte"));
-		
+			
+				//FilhosDAO filhosdao = new FilhosDAO();
+				//funcionario.setFilhos(filhosdao.listarFilhos(funcionario.getCodCadastro())); // vai executar de dentro para fora
 		
 				listaFuncionario.add(funcionario);
-				System.out.println("ADD NO listaFuncionario");
 				
 			}
 
@@ -312,54 +274,7 @@ public class FuncionarioDAO {
 		
 		return listaFuncionario;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public List<Filhos> listarFilhos() {
-		List<Filhos> listaFilhos = new ArrayList<Filhos>();
-		
-		Connection conn = null;
-		Statement stmt = null;
 
-		try {
-			conn = db.obterConexao();
-
-			String sql = "select fi.data_nascimento,fi.nome from filhos fi inner join funcionario f on f.cod_cadastro = fi.fk_cod_cadastro";
-			//where - para saber de qual funcionario é o filho
-		
-			stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
-			while (rs.next()) {
-				Filhos filhos = new Filhos();
-
-				filhos.setNome(rs.getString("nome"));
-				filhos.setData_nascimentoStr(rs.getString("data_nascimento"));
-				listaFilhos.add(filhos);		
-			}
-
-		} catch (SQLException e) {
-			System.out.println("Erro ao listar Filhos");
-			e.printStackTrace();
-		}
-		
-		return listaFilhos;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	public void excluirPessoa(String cpf) {
 
@@ -378,7 +293,7 @@ public class FuncionarioDAO {
 			stmt.setString(1, cpf);
 			stmt.execute();
 			conn.commit();
-		
+		System.out.println("comit no excluir pessoa");
 			
 		} catch (SQLException e) {
 			System.out.println("Erro no método de excluir pessoa na classe FuncionarioDAO.");
@@ -391,6 +306,15 @@ public class FuncionarioDAO {
 	
 	public void excluirFuncionario(Funcionario funcionario) {
 
+		//if (!funcionario.getFilhos().isEmpty()) {
+			
+			System.out.println("Entrou na condição de exclusao do filho");
+			
+			FilhosDAO filhosdao = new FilhosDAO();
+			filhosdao.excluirFilhos(funcionario);
+			
+		//}
+		
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -401,14 +325,14 @@ public class FuncionarioDAO {
 
 			StringBuffer sql = new StringBuffer();
 			sql.append("DELETE from funcionario ");
-			sql.append("WHERE cpf = ?;");
+			sql.append("WHERE fk_cpf = ?;");
 			stmt = conn.prepareStatement(sql.toString());
 			stmt.setString(1, funcionario.getCpf());
 			stmt.execute();
 			conn.commit();
 			
 			excluirPessoa(funcionario.getCpf());
-			
+			System.out.println("Entrou no metodo de excluir PESSOA");
 		} catch (SQLException e) {
 			System.out.println("Erro no método excluir Funcionario ");
 			e.printStackTrace();

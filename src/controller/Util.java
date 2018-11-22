@@ -19,5 +19,10 @@ public class Util {
 		}
 		return data;
 	}
+	
+	static public String transformaDataJson(Date date){
+		SimpleDateFormat stf = new SimpleDateFormat("dd/MM/yyyy");
+		return stf.format(date);
+	}
 
 }

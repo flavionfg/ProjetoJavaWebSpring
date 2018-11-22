@@ -1,6 +1,7 @@
 package model;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import controller.Util;
 
@@ -13,7 +14,7 @@ public class Funcionario extends Pessoa{
 	String valeRefeicao;
 	String valeTransporte;
 	private String disciplina;
-	private ArrayList<Filhos> filhos;
+	private List<Filhos> filhos;
 	
 	public int getCodCadastro() {
 		return codCadastro;
@@ -57,11 +58,11 @@ public class Funcionario extends Pessoa{
 	public void setDisciplina(String disciplina) {
 		this.disciplina = disciplina;
 	}
-	public ArrayList<Filhos> getFilhos() {
+	public List<Filhos> getFilhos() {
 		return filhos;
 	}
-	public void setFilhos(ArrayList<Filhos> filhos) {
-		this.filhos = filhos;
+	public void setFilhos(List<Filhos> list) {
+		this.filhos = list;
 	}
 	
 

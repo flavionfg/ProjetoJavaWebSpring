@@ -1,11 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
 <head>
@@ -123,22 +122,22 @@
     </div>
 </div>
 
-  <div class="form-row" method="post">
+  <div class="form-row" style="display: block;" method="post">
+   <input type="button" class="adicionar" title="Adicionar linha" style="cursor: pointer;" value="adicionar Filhos" />
    
-   <span>Filhos <input type="button" class="adicionar" title="Adicionar linha" style="cursor: pointer;" value="adicionar" /></span>
+   <br>
    
      <div class="form-group col col-sm-6 col-md-4, modelo">  <!-- duas classes , esta é a sintaxe -->
       <label for="nomeFilho">Nome</label>
-      <input type="text" class="form-control" id="nomeFilho" placeholder="Nome completo" name="nomeFilho">
+      <input type="text" class="form-control nomeFilho" placeholder="Nome completo" name="nomeFilho">
      
-      <label for="nomeFilho">Data de Nascimento</label>
-      <input type="text" class="form-control" id="dataNascimentoFilho" placeholder="dia/mes/ano" name="dataNascimentoFilho">
+      <label for="dataNascimentoFilho">Data de Nascimento</label>
+      <input type="text" class="form-control dataNascimentoFilho" placeholder="dia/mes/ano" name="dataNascimentoFilho">
       <a href="#" class="linkExcluir hidden" onclick="excluirLinha(this)">Excluir linha</a>
       
     </div> 
     <div class="fim"></div>
     <br /> 
-	<input type="submit" class="btnSalvar" value="${filho_id eq 0 ? 'Adicionar' : 'Alterar'}">
 </div>
   <button type="submit" class="btn btn-outline-primary" id="botao" value="adicionafuncionario" >Cadastrar</button>
   <button type="submit" class="btn btn-outline-primary" >Limpar Campos</button>
@@ -170,8 +169,8 @@
               </thead>
 	              <tbody>
 					<c:forEach items="${listaFuncionario}" var="funcionario">
-						<tr class="linhafuncionario">	
 						
+						<tr class="linhafuncionario">					
 							<td class="codCadastro">${funcionario.codCadastro}</td>
 							<td class="nome">${funcionario.nome}</td>
 							<td class="cpf">${funcionario.cpf}</td>
@@ -188,26 +187,24 @@
 							<td class="valeAlimentacao">${funcionario.valeAlimentacao}</td>
 							<td class="valeRefeicao">${funcionario.valeRefeicao}</td>
 							<td class="valeTransporte">${funcionario.valeTransporte}</td>
-	 
+												
 							<td><button type="submit" class="btn btn-outline-primary" id="botaoEditarNaTabela" value="" onclick="editarfuncionario(this)">Editar</button></td> 
-							<td><a href="excluirfuncionario?cpf=${funcionario.cpf}" class="btn btn-outline-primary" >Deletar</a></td>
-							<td><button type="submit" class="btn btn-outline-primary" id="botaoEditarNaTabela" value="" onclick="editarfuncionario(this)">Editar Filhos</button></td> 
+							<td><a href="excluirFuncionario?codCadastro=${funcionario.codCadastro}&cpf=${funcionario.cpf}" class="btn btn-outline-primary" >Deletar</a></td>
+							<!--  "excluirFuncionario?codCadastro=  o codCadastro é um parametro  || &cpf=${funcionario.cpf} e o .cpf é o valor do parametro       --> 
 						</tr>																							
 					</c:forEach>
               </tbody>
             </table>
         </div>
   </div>
-
-
-  
 </div>
-
-  <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script type="text/javascript" src="js/validarCadastro.js"></script>
   
   	<script type="text/javascript">
+
 		$(document).ready(function(e) {
+			
 			$(".adicionar").click(function(e){
 						
 				var novaLinha = $(".modelo").clone();
@@ -223,7 +220,76 @@
 		function excluirLinha(elemento) {			
 			elemento.closest(".nova").remove();
 		}
+			
+		function editarfuncionario(elemento){
+			
+			$("input[name=codCadastro]").val($(elemento).closest(".linhafuncionario").find(".codCadastro").html());
+			$("input[name=nome]").val($(elemento).closest(".linhafuncionario").find(".nome").html());
+			$("input[name=cpf]").val($(elemento).closest(".linhafuncionario").find(".cpf").html());
+			$("input[name=endereco]").val($(elemento).closest(".linhafuncionario").find(".endereco").html());
+			$("input[name=email]").val($(elemento).closest(".linhafuncionario").find(".email").html());
+			$("input[name=telefone]").val($(elemento).closest(".linhafuncionario").find(".telefone").html());
+			$("select[name=sexo]").val($(elemento).closest(".linhafuncionario").find(".sexo").html());
+			$("select[name=cargo]").val($(elemento).closest(".linhafuncionario").find(".cargo").html());
+				
+				if($('#cargo').val() == "professor"){
+					$(".disciplina").show();
+				}else{
+					$(".disciplina").hide();
+				}
+				
+			$("select[name=disciplina]").val($(elemento).closest(".linhafuncionario").find(".disciplina").html());
+			$("input[name=salario]").val($(elemento).closest(".linhafuncionario").find(".salario").html());
+			$("select[name=valeAlimentacao]").val($(elemento).closest(".linhafuncionario").find(".valeAlimentacao").html());
+			$("select[name=valeRefeicao]").val($(elemento).closest(".linhafuncionario").find(".valeRefeicao").html());
+			$("select[name=valeTransporte]").val($(elemento).closest(".linhafuncionario").find(".valeTransporte").html());
+			$("input[name=dataNascimentoStr]").val($(elemento).closest(".linhafuncionario").find(".dataNascimento").html().trim());
+			
+			
+			carregarFilhos($("input[name=codCadastro]").val());
 
+		}
+	
+		function carregarFilhos(codCadastro) {	
+			var data = {codDoFuncionario : codCadastro};   
+
+			$.ajax({
+				url:"obterFilhosViaJson",
+				type: "GET",
+				async:false,
+				data: data,
+				dataType:"json",
+			    cache: true,
+				contentType:'application/x-www-form-urlencoded;', 
+
+				success: function (data) {
+					console.log("teste " + data.length);
+					
+					var pv = true;
+					
+			         $.each(data, function(index, filho) {
+					   	
+						if (pv) {
+							$(".nomeFilho").val(filho.nome);
+							$(".dataNascimentoFilho").val(filho.data_nascimentoStr);
+							pv = false;
+						} else {
+							var novaLinha = $(".modelo").clone();
+							novaLinha.removeClass("modelo").addClass("nova").find("input[name=nomeFilho]").focus();
+							novaLinha.find(".linkExcluir").removeClass("hidden");
+							
+							novaLinha.insertBefore(".fim");
+							
+							novaLinha.find(".nomeFilho").val(filho.nome);
+							novaLinha.find(".dataNascimentoFilho").val(filho.data_nascimentoStr);
+						}
+			         }); 
+			      
+			    }
+			});
+			
+		}
+	
 	</script>
 </body>
 </html>

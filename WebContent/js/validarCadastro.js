@@ -217,23 +217,7 @@ function Cadastrar(){
 }
 
 
-function editarfuncionario(elemento){
-	
-	$("input[name=codCadastro]").val($(elemento).closest(".linhafuncionario").find(".codCadastro").html());
-	$("input[name=nome]").val($(elemento).closest(".linhafuncionario").find(".nome").html());
-	$("input[name=cpf]").val($(elemento).closest(".linhafuncionario").find(".cpf").html());
-	$("input[name=endereco]").val($(elemento).closest(".linhafuncionario").find(".endereco").html());
-	$("input[name=email]").val($(elemento).closest(".linhafuncionario").find(".email").html());
-	$("input[name=telefone]").val($(elemento).closest(".linhafuncionario").find(".telefone").html());
-	$("input[name=cargo]").val($(elemento).closest(".linhafuncionario").find(".cargo").html());
-	$("select[name=sexo]").val($(elemento).closest(".linhafuncionario").find(".sexo").html());
-	$("select[name=disciplina]").val($(elemento).closest(".linhafuncionario").find(".disciplina").html());
-	$("select[name=salario]").val($(elemento).closest(".linhafuncionario").find(".salario").html());
-	$("select[name=valeAlimentacao]").val($(elemento).closest(".linhafuncionario").find(".valeAlimentacao").html());
-	$("select[name=valeRefeicao]").val($(elemento).closest(".linhafuncionario").find(".valeRefeicao").html());
-	$("select[name=valeTransporte]").val($(elemento).closest(".linhafuncionario").find(".valeTransporte").html());
-	$("input[name=dataNascimentoStr]").val($(elemento).closest(".linhafuncionario").find(".dataNascimento").html().trim());
-}
+
 
 
 function editarAluno(elemento){
