@@ -77,6 +77,7 @@ function validarCadastro(elemento) {
 	 var retorno = true;
 	
 		if ($(elemento).prop('name') == "nome") {
+			
 			if(!validaNome($(elemento).val())){
 				alert("Digite um Nome valido");
 				retorno = false;
@@ -103,6 +104,14 @@ function validarCadastro(elemento) {
 				retorno = false;
 			}
 		}
+		
+		if ($(elemento).prop('name') == "email") {
+			if(!validacaoEmail($(elemento).val())){
+				alert("Digite um E-Mail valido");
+				retorno = false;
+			}
+		}
+		
 		if($(elemento).prop('name') == "telefone"){
 			if(!validaTelefone($(elemento).val())){
 				alert("Digite um Telefone Valido");
@@ -110,15 +119,8 @@ function validarCadastro(elemento) {
 			}
 			
 		}
-		
-
-		
-
-		
 		//validar se vai ser funcionario aqui
-		
-		
-		
+	
 		return retorno;
 }
 
@@ -176,12 +178,6 @@ function validarData(data) {
 	}
 
 
-function validaSexo(sexo){
-	console.log(sexo);
-//	if(sexo == "masculino" || sexo == "feminimo")
-		return true;
-}
-
 function validaTelefone(telefone){
 	
     telefone = telefone.replace(/\D/g,'');
@@ -200,7 +196,7 @@ function validaTelefone(telefone){
 
 function validaNome(nome){
 	
-	if(nome.length <=1){
+	if(nome.length <=0 || nome == ""){
 		return false;
 	}
 	
@@ -215,11 +211,6 @@ function Cadastrar(){
 	alert("Entrou na funcao de cadastrar");
 	
 }
-
-
-
-
-
 function editarAluno(elemento){
 	
 	$("input[name=numero_matricula]").val($(elemento).closest(".linhaAluno").find(".matricula").html());
