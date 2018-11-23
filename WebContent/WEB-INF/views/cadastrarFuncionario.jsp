@@ -26,8 +26,8 @@
 <div class="container">
   
 <form id="form" action="adicionaFuncionario" method="post">
-<input type="hidden" name="codCadastro" value="">  <!-- COLOCAR NO VALUE O FUNCUIONARIO.CODCASTRO QUANDO FOR EDITAR -->
-	
+<input type="hidden" name="codCadastro" value="${funcionario.codCadastro}">  <!-- COLOCAR NO VALUE O FUNCUIONARIO.CODCASTRO QUANDO FOR EDITAR -->
+	<!-- o value do hidden eu coloquei 23/11/18 -->
   <div class="row">
     <div class="form-group col col-sm-6 col-md-4">
       <label for="nome">Nome</label>
@@ -58,7 +58,7 @@
     <div class="form-group col-md-4">
       <label for="valeAlimentacao">Vale Alimentação</label>
       <select id="valeAlimentacao" class="form-control" name="valeAlimentacao">
-        <option value="">Selecione</option>
+        <option value="" disabled hidden>Selecione</option>
         <option>Sim</option>
      	<option>Nao</option>
       </select>
@@ -66,7 +66,7 @@
     <div class="form-group col-md-4">
       <label for="valeRefeicao">Vale Refeição</label>
       <select id="valeRefeicao" class="form-control" name="valeRefeicao">
-        <option value="">Selecione</option>
+        <option value="" disabled hidden>Selecione</option>
         <option>Sim</option>
      	<option>Não</option>
       </select>
@@ -74,7 +74,7 @@
     <div class="form-group col-md-4"> 
       <label for="valeTransporte" >Vale Transporte</label>
       <select id="valeTransporte" class="form-control" name="valeTransporte" >
-        <option value="">Selecione</option>
+        <option value="" disabled hidden>Selecione</option>
         <option>Sim</option>
         <option>Não</option>
       </select>
@@ -84,7 +84,7 @@
     <div class="form-group col-md-4">
       <label for="sexo">Sexo</label>
       <select id="sexo" class="form-control" name="sexo">
-        <option value="">Selecione</option>
+        <option value="" disabled hidden>Selecione</option>
         <option value="m">M</option>
      	<option value="f">F</option>
       </select>
@@ -92,7 +92,7 @@
     <div class="form-group col-md-4">
       <label for="cargo">Cargo</label>
       <select id="cargo" class="form-control" name="cargo">
-        <option value="">Selecione</option>
+        <option value="" disabled hidden>Selecione</option>
         <option value="professor">Professor</option>
      	<option>Analista Mainframe</option>
      	<option>Analista Baixa Plataforma</option>
@@ -105,7 +105,7 @@
     <div class="form-group col-md-4 disciplina" style="display:none;">  <!-- a classe disciplina é que vai esconder toda a div -->
       <label for="disciplina" >Disciplina</label>
       <select id="disciplina" class="form-control" name="disciplina" >
-        <option>Selecione</option>
+        <option disabled hidden>Selecione</option>
         <option>Banco de Dados</option>
         <option>Front-end</option>
      	<option>Java WEB</option>
@@ -140,7 +140,7 @@
     <br /> 
 </div>
   <button type="submit" class="btn btn-outline-primary" id="botao" value="adicionafuncionario" >Cadastrar</button>
-  <button type="submit" class="btn btn-outline-primary" >Limpar Campos</button>
+  <button type="reset" class="btn btn-outline-primary" >Limpar Campos</button>
 </form>
        <div class="row mt-4">
          <div class="col-sm-12">

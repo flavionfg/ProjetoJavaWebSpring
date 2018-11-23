@@ -1,7 +1,5 @@
 $(document).ready(function() {
 	
-	console.log("Recarregando a página");
-	
 	$("input").blur(function() {
 		if ($(this).val() == "") {
 			$(this).css({
@@ -9,17 +7,13 @@ $(document).ready(function() {
 				"padding" : "2px"
 			});
 		}
+		
 	});
 	
 	$("select").val("").blur(function() {
 		if ($(this).val() == "") {
 			$(this).css({
 				"border" : "1px solid #F00",
-				"padding" : "2px"
-			});
-		}else if($(this).val() == "m" || $(this).val() == "f" ) {
-			$(this).css({
-				"border" : "1px solid #EEE9E9",
 				"padding" : "2px"
 			});
 		}
@@ -77,7 +71,6 @@ function validarCadastro(elemento) {
 	 var retorno = true;
 	
 		if ($(elemento).prop('name') == "nome") {
-			
 			if(!validaNome($(elemento).val())){
 				alert("Digite um Nome valido");
 				retorno = false;
@@ -100,13 +93,13 @@ function validarCadastro(elemento) {
 		if ($(elemento).prop('name') == "sexo") {
 			
 			if($(elemento).val() != "m" && $(elemento).val() != "f"){
-				alert("Escolha um Sexo");	
+				alert("Escolha um Sexo!!!!!!");	
 				retorno = false;
 			}
 		}
 		
 		if ($(elemento).prop('name') == "email") {
-			if(!validacaoEmail($(elemento).val())){
+			if(($(elemento).val() == "")){
 				alert("Digite um E-Mail valido");
 				retorno = false;
 			}
@@ -119,7 +112,20 @@ function validarCadastro(elemento) {
 			}
 			
 		}
-		//validar se vai ser funcionario aqui
+		////////////////////////////////////////////////
+		
+		if($(elemento).prop('name') == "valeRefeicao"){
+			if(($(elemento).val() !="refeicaosim" && ($(elemento).val() !="refeicaonao"))){
+				alert("Selecione Vale Refeição");
+				retorno = false;
+			}
+			
+		}
+		
+	
+		//valeAlimentacao
+		//valeRefeicao
+		//valeTransporte
 	
 		return retorno;
 }
@@ -196,7 +202,8 @@ function validaTelefone(telefone){
 
 function validaNome(nome){
 	
-	if(nome.length <=0 || nome == ""){
+	if(nome.length <=0  || nome == ""){
+		alert("entrou no nome");
 		return false;
 	}
 	
@@ -207,10 +214,6 @@ function validaSexo(sexo){
 	return !!sexo;
 }
 
-function Cadastrar(){
-	alert("Entrou na funcao de cadastrar");
-	
-}
 function editarAluno(elemento){
 	
 	$("input[name=numero_matricula]").val($(elemento).closest(".linhaAluno").find(".matricula").html());
@@ -222,6 +225,12 @@ function editarAluno(elemento){
 	$("input[name=curso]").val($(elemento).closest(".linhaAluno").find(".curso").html());
 	$("select[name=sexo]").val($(elemento).closest(".linhaAluno").find(".sexo").html());
 	$("input[name=dataNascimentoStr]").val($(elemento).closest(".linhaAluno").find(".dataNascimento").html().trim());
+}
+
+
+function deletar(){
+	
+	alert("Aluno Excluido");
 }
 
 

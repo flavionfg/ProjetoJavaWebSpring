@@ -1,9 +1,6 @@
 package model;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import controller.Util;
 
 public class Funcionario extends Pessoa{
 

@@ -64,7 +64,7 @@
     </div>
 </div>
   <button type="submit" class="btn btn-outline-primary" id="botao" value="adicionaAluno" >Cadastrar</button>
-  <button type="submit" class="btn btn-outline-primary" >Limpar Campos</button>
+  <button type="reset" class="btn btn-outline-primary" >Limpar Campos</button>
 </form>
        <div class="row mt-4">
          <div class="col-sm-12">
@@ -99,7 +99,7 @@
 							</td>
 							<td class="sexo">${aluno.sexo}</td>
 							<td><button type="submit" class="btn btn-outline-primary" id="botaoEditarNaTabela" value="" onclick="editarAluno(this)">Editar</button></td>
-							<td><a href="excluirAluno?cpf=${aluno.cpf}" class="btn btn-outline-primary" >Deletar</a></td>
+							<td><a href="excluirAluno?cpf=${aluno.cpf}" class="btn btn-outline-primary"  onclick="deletar()">Deletar</a></td>
 						</tr>																							
 					</c:forEach>
               </tbody>
