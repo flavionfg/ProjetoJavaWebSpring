@@ -1,7 +1,9 @@
 # ProjetoJavaWebSpring
 
+Projeto Realizado no curso de java na FTI.
+
 ```
-git clone URL DO REPOSITORIO - faz só a primeira vez
+git clone URL DO REPOSITORIO - faz sÃ³ a primeira vez
 ``` 
 
 ``` 
@@ -9,7 +11,7 @@ git clone URL DO REPOSITORIO - faz só a primeira vez
 ```  
 
 ``` 
-(depois de fazer alteraçoes usar comandos abaixo)
+(depois de fazer alteraÃ§oes usar comandos abaixo)
 ``` 
 
 ``` 
