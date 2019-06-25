@@ -1,6 +1,6 @@
 # ProjetoJavaWebSpring
 
-Projeto Realizado no curso de java na FTI.
+Projeto Realizado no curso de java na <a href="http://www.fti.com.br/">FTI Tecnologia<a/>.
 
 ```
 git clone URL DO REPOSITORIO - faz só a primeira vez
